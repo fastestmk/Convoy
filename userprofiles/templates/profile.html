@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div>
+    <h1>Profile</h1><br>
+    {% if user.is_authenticated %}
+        <b >Name:</b> {{user.first_name }}</p>
+        <b > Surname:</b> {{user.last_name }}</p>
+        <b  >Username:</b> {{ user.username }}</p>
+        <b >Email:</b> {{ user.email }}</p>
+    {% endif %}
+    <a class="btn btn-success" href="http://127.0.0.1:8000/edit_profile/" role="button">Edit profile</a>
+    {% endblock %}
+</div>

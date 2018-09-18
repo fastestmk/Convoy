@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="col-md-12">
+  <div class="panel panel-danger">
+    <div class="panel-heading">
+      <h3 class="text-primary">
+        <a style="color:#13220D" href="http://127.0.0.1:8000/detail/{{ post.pk }}/">
+          <h1>{{ post.title }}</h1>
+        </a>
+      </h3>
+        <span style="color:#7DB7C9">Submited by</span>
+        <span style="color:red">{{ post.user }}</span>
+    </div>
+
+    <div  class="panel-body">
+      {{ post.text }}
+    </div>
+
+  </div>
+  {% if user.is_authenticated %}
+  <hr>
+    <div style="text-align:center">
+      <a  class="btn  btn-dark btn-sm" href="{% url 'post:comment' post.id %}">Add new comment</a>
+   </div>
+  <hr>
+  {% endif %}
+  <br>
+  {% for comment in post.comments.all %}
+    <ul class="list-group">
+      <li class="list-group-item">
+        <p style="color:red;" >{{ comment.author }}</p>
+        <div class="Link-detail">
+          <p class="media-body pb-3 mb-0 small lh-125 border-bottom border-gray">
+            {{ comment }}
+          </p>
+        </div>
+       </li>
+    </ul>
+  {% endfor %}
+  </div>
+{% endblock content %}

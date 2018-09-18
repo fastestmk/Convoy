@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block content %}
+<ol class="list-group">
+  {% for post in Posts %}
+    <li class="list-group-item">
+      <a  style="color:#FF2B00" href="http://127.0.0.1:8000/detail/{{ post.pk }}/">{{ post.title }}</a>
+      <div class="Link-detail">
+        <span>submited by {{ post.user }}</span> |
+        <a class="Link-link"  style="color:orange">comments: {{ post.comments.count }}</a>
+      </div>
+    </li>
+  {% endfor %}
+</ol>
+{% endblock content %}
