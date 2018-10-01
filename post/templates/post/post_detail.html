@@ -13,8 +13,8 @@
         <span style="color:#7DB7C9">Submited by</span>
         <span style="color:red">{{ post.user }}</span>
         {% if user.is_authenticated %}
-            {% if user.username == Post.user %}
-                <a  class="btn  btn-dark btn-sm" href="#">Sil</a>
+            {% if  user == post.user %}
+              <a  class="btn  btn-dark btn-sm" href="#">Sil</a>
             {% endif %}
         {% endif %}
     </div>

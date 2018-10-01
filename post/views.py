@@ -22,8 +22,11 @@ def PostList(request):
     return render(request, 'post/post_list.html', {'Posts': Posts})
 
 
-class PostDetail(DetailView):
-    model = Post
+def PostDetail(request, pk):
+    queryset = Post.objects.get(pk=pk)
+    template_name = "post/post_detail.html"
+    context = dict(post=queryset)
+    return render(request, template_name, context)
 
 
 class NewPost(CreateView):
