@@ -13,8 +13,10 @@
         <span style="color:#7DB7C9">Submited by</span>
         <span style="color:red">{{ post.user }}</span>
         {% if user.is_authenticated %}
-            {% if  user == post.user %}
-              <a  class="btn  btn-dark btn-sm" href="#">Sil</a>
+            {% if  user == post.user.user %}
+            <div style="float: right;">
+                <a class="btn  btn-warning btn-sm" href="{% url 'post:delete' post.id %}">Delete</a>
+            </div>
             {% endif %}
         {% endif %}
     </div>

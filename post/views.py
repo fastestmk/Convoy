@@ -1,6 +1,7 @@
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
-from django.views.generic import CreateView, DetailView
-from django.shortcuts import redirect, render
+from django.views.generic import CreateView, DetailView, DeleteView
+from django.shortcuts import redirect, render, get_object_or_404
+from django.contrib import messages
 from django.urls import reverse_lazy
 
 from .models import Post, Comment
@@ -27,6 +28,12 @@ def PostDetail(request, pk):
     template_name = "post/post_detail.html"
     context = dict(post=queryset)
     return render(request, template_name, context)
+
+
+def PostDelete(request, pk):
+    post = get_object_or_404(Post, pk=pk).delete()
+    messages.add_message(request, messages.INFO, "Your post has been deleted!")
+    return redirect("post:list")
 
 
 class NewPost(CreateView):
