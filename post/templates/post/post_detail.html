@@ -14,18 +14,24 @@
         <span style="color:red">{{ post.user }}</span>
         {% if user.is_authenticated %}
             {% if  user == post.user.user %}
-            <div style="float: right;">
-                <a class="btn  btn-warning btn-sm" href="{% url 'post:delete' post.id %}">Delete</a>
+             <div style="float: right;">
+                <div id="displayDelete{{post.id}}" style="display: none;">
+                    <a class="btn  btn-warning btn-sm" href="/delete/{{post.id}}">Delete</a>
+                    <a class="btn  btn-danger btn-sm" onclick="cancel({{ post.id }})">Cancel</a>
+                </div>
+                <div id="delete{{post.id}}">
+                    <a class="btn  btn-danger btn-sm" style="color: white;" onclick="display({{post.id}})">Delete</a>
+                </div>
             </div>
             {% endif %}
         {% endif %}
-    </div>
+</div>
 
-    <div  class="panel-body">
-      {{ post.text }}
-    </div>
+<div  class="panel-body">
+  {{ post.text }}
+</div>
 
-  </div>
+ </div>
   {% if user.is_authenticated %}
   <hr>
     <div style="text-align:center">
