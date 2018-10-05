@@ -11,5 +11,23 @@
       </div>
     </li>
   {% endfor %}
-</ol>
+  </ol>
+  <center>
+  <div>
+    <span>
+      {% if Posts.has_previous %}
+        <a href="?page={{ Posts.previous_page_number }}">Next Page</a>
+      {% endif %}
+
+      <span>
+         {{ Posts.number }} / {{ Posts.paginator.num_pages }}
+      </span>
+
+      {% if Posts.has_next %}
+        <a href="?page={{ Posts.next_page_number }}">Previous Page</a>
+      {% endif %}
+    </span>
+  </div>
+</center>
+
 {% endblock content %}

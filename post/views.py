@@ -10,7 +10,7 @@ from .forms import PostForm, CommentForm
 
 def PostList(request):
     Posts = Post.objects.all()[::-1]
-    paginator = Paginator(Posts, 10)
+    paginator = Paginator(Posts, 5)
 
     page = request.GET.get('page')
     try:
