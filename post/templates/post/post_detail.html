@@ -20,7 +20,7 @@
                     <a class="btn  btn-danger btn-sm" onclick="cancel({{ post.id }})">Cancel</a>
                 </div>
                 <div id="delete{{post.id}}">
-                    <a class="btn  btn-warning btn-sm" style="color: white;" onclick="/edit/{{post.id}}">Edit</a>
+                    <a class="btn  btn-warning btn-sm" style="color: white;" href="http://127.0.0.1:8000/edit/{{ post.id }}/">Edit</a>
                     <a class="btn  btn-danger btn-sm" style="color: white;" onclick="display({{post.id}})">Delete</a>
                 </div>
             </div>
