@@ -1,6 +1,7 @@
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.views.generic import CreateView, UpdateView
 from django.shortcuts import redirect, render, get_object_or_404
+from django.contrib.auth.models import User
 from django.contrib import messages
 from django.urls import reverse_lazy
 
@@ -8,10 +9,31 @@ from .models import Post, Comment
 from .forms import PostForm, CommentForm
 
 
+def userPost(request, username):
+    user = User.objects.get(username=username)
+    post_list = Post.objects.filter(user=user.pk)
+
+    paginator = Paginator(post_list, 5)
+    page = request.GET.get('page')
+    try:
+        Posts = paginator.page(page)
+    except PageNotAnInteger:
+        Posts = paginator.page(1)
+    except EmptyPage:
+        Posts = paginator.page(paginator.num_pages)
+
+    if post_list == []:
+        messages.add_message(request, messages.INFO, "The user does not have a share!")
+    else:
+        messages.add_message(request, messages.INFO, "Posts by " + username + " user.")
+
+    return render(request, 'post/post_list.html', {'Posts': Posts})
+
+
 def PostList(request):
     Posts = Post.objects.all()[::-1]
-    paginator = Paginator(Posts, 5)
 
+    paginator = Paginator(Posts, 5)
     page = request.GET.get('page')
     try:
         Posts = paginator.page(page)

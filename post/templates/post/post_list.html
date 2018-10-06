@@ -6,8 +6,10 @@
     <li class="list-group-item">
       <a  style="color:#FF2B00" href="http://127.0.0.1:8000/detail/{{ post.pk }}/">{{ post.title }}</a>
       <div class="Link-detail">
-        <span>submited by {{ post.user }}</span> |
-        <a class="Link-link"  style="color:orange">comments: {{ post.comments.count }}</a>
+        <span>
+          <a href="http://127.0.0.1:8000/userPost/{{ post.user }}/" style="color:blue">@{{ post.user }}</a>
+        </span>
+        <a class="Link-link"  style="color:black">| comments: {{ post.comments.count }}</a>
       </div>
     </li>
   {% endfor %}
