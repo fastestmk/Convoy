@@ -1,5 +1,5 @@
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
-from django.views.generic import CreateView, UpdateView
+from django.views.generic import CreateView, UpdateView, ListView
 from django.shortcuts import redirect, render, get_object_or_404
 from django.contrib.auth.models import User
 from django.contrib import messages
@@ -7,6 +7,24 @@ from django.urls import reverse_lazy
 
 from .models import Post, Comment
 from .forms import PostForm, CommentForm
+
+
+def searchPost(request):
+    if request.method == 'POST':
+        try:
+            q = request.POST['query']
+            user = User.objects.get(username=q)
+            Posts = Post.objects.filter(title=q) | \
+                Post.objects.filter(user=user.pk)
+            if Posts:
+                return render(request, 'post/post_list.html', {'Posts': Posts})
+            else:
+                return render(request, 'post/404.html')
+        except KeyError:
+            return render(request, 'post/404.html')
+        except User.DoesNotExist:
+            messages.add_message(request, messages.INFO, "404 Page Not Found !")
+            return render(request, 'post/post_list.html', {})
 
 
 def userPost(request, username):
