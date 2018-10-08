@@ -20,6 +20,7 @@ def searchPost(request):
                 try:
                     user = User.objects.get(username=q)
                     Posts = Post.objects.filter(user=user.pk)
+                    return render(request, 'post/post_list.html', {'Posts': Posts})
                 except User.DoesNotExist:
                     return render(request, 'post/404.html')
                 return render(request, 'post/404.html')
