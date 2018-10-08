@@ -13,18 +13,18 @@ def searchPost(request):
     if request.method == 'POST':
         try:
             q = request.POST['query']
-            user = User.objects.get(username=q)
-            Posts = Post.objects.filter(title=q) | \
-                Post.objects.filter(user=user.pk)
+            Posts = Post.objects.filter(title=q)
             if Posts:
                 return render(request, 'post/post_list.html', {'Posts': Posts})
             else:
+                try:
+                    user = User.objects.get(username=q)
+                    Posts = Post.objects.filter(user=user.pk)
+                except User.DoesNotExist:
+                    return render(request, 'post/404.html')
                 return render(request, 'post/404.html')
         except KeyError:
             return render(request, 'post/404.html')
-        except User.DoesNotExist:
-            messages.add_message(request, messages.INFO, "404 Page Not Found !")
-            return render(request, 'post/post_list.html', {})
 
 
 def userPost(request, username):
