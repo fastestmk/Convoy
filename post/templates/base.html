@@ -20,6 +20,7 @@
         <li><a href="{% url 'post:add' %}">New Post</a></li>
         <li><a href="{% url 'Profile:profile' %}">{{user}}</a></li>
         <li><a  href="{% url 'Profile:sign_out' %}">Logout</a></li>
+        <li><a href="{% url 'Api:posts_api' %}">Api</a></li>
         <li>
             <form  class="form-inline mt-2 mt-md-0" role="search" method="POST" action="{% url 'post:searchPost' %}">
               {% csrf_token %}
@@ -31,6 +32,7 @@
         <li><a href="http://127.0.0.1:8000/">Posts</a></li>
         <li><a  href="{% url 'Profile:sign_in' %}">Sign In</a></li>
         <li><a href="{% url 'Profile:sign_up' %}">Sign Up</a></li>
+        <li><a href="{% url 'Api:posts_api' %}">Api</a></li>
         <li>
             <form  class="form-inline mt-2 mt-md-0" role="search" method="POST" action="{% url 'post:searchPost' %}">
               {% csrf_token %}
