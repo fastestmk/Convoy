@@ -22,3 +22,15 @@ def posts_api(request):
         posts = Post.objects.all()
         posts_serializer = PostSerializer(posts, many=True)
         return JSONResponse(posts_serializer.data)
+
+
+@csrf_exempt
+def post_detail(request, pk):
+    try:
+        post = Post.objects.get(pk=pk)
+    except Oyun.DoesNotExist:
+        return HttpResponse(status=status.HTTP_404_NOT_FOUND)
+
+    if request.method == 'GET':
+        posts_serializer = PostSerializer(post)
+        return JSONResponse(posts_serializer.data)
