@@ -8,6 +8,7 @@
       <div class="Link-detail">
         <span>
           <a href="http://127.0.0.1:8000/userPost/{{ post.user }}/" style="color:blue">@{{ post.user }}</a>
+          <a style="color:orange">{{post.date}}</a>
         </span>
         <a class="Link-link"  style="color:black">| comments: {{ post.comments.count }}</a>
       </div>

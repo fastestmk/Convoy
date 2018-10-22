@@ -1,5 +1,5 @@
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
-from django.views.generic import CreateView, UpdateView, ListView
+from django.views.generic import CreateView, UpdateView
 from django.shortcuts import redirect, render, get_object_or_404
 from django.contrib.auth.models import User
 from django.contrib import messages
@@ -100,7 +100,7 @@ class CommentView(CreateView):
     form_class = CommentForm
 
     def get_success_url(self):
-        return reverse_lazy('post:list')
+        return reverse_lazy('post:detail', kwargs={'pk': self.kwargs['pk']})
 
     def form_valid(self, form):
         form.instance.author = self.request.user.profile
