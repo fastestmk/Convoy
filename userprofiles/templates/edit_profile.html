@@ -2,31 +2,27 @@
 {% block content %}
 <div >
   <h2> Edit Profile </h2><br>
-  <form method="POST" action="{% url 'Profile:edit_profile' %}">
+  <form method="POST" action="{% url 'Profile:edit_profile' %}" enctype="multipart/form-data">
     {% csrf_token %}
-
     {% if form.errors %}
-    <div class="alert alert-warning alert-dismissable" role="alert">
-      <button class="close" data-dismiss="alert">
-        <small><sup></sup></small>
-      </button>
-        <p> Your Form Has Errors...</p>
-        {% for field in form %}
-          {% if field.errors %}
-            {{ field.errors }}
-          {% endif %}
-       {% endfor %}
-      </div>
+      <div class="alert alert-warning alert-dismissable" role="alert">
+        <button class="close" data-dismiss="alert">
+          <small><sup></sup></small>
+        </button>
+          <p> Your Form Has Errors...</p>
+          {% for field in form %}
+            {% if field.errors %}
+              {{ field.errors }}
+            {% endif %}
+         {% endfor %}
+        </div>
     {% endif %}
-
     <div >
       {{form.as_p}}
       {{p_form}}
     </div>
-
     <input type="submit" value="Edit Profile" class="btn btn-danger">
   </form><br/>
-
   <p>
     <a href="{% url 'Profile:change_password' %}">Click Here</a>
     <a >To change your password </a>
