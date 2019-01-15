@@ -4,7 +4,7 @@ from django.contrib.auth import login, authenticate, logout
 from django.shortcuts import render, redirect
 from django.contrib import messages
 
-from .forms import SignUpForm, EditProfileForm
+from .forms import SignUpForm, EditProfileForm, ProfileUpdateForm
 
 
 def sign_in(request):
@@ -49,14 +49,22 @@ def sign_out(request):
 def edit_profile(request):
     if request.method == 'POST':
         form = EditProfileForm(request.POST, instance=request.user)
-        if form.is_valid():
+        p_form = ProfileUpdateForm(request.POST,
+                                   request.FILES,
+                                   instance=request.user.profile)
+        if form.is_valid() and p_form.is_valid():
             form.save()
+            p_form.save()
             messages.success(request, ('You have edited you profile.'))
             return redirect('Profile:edit_profile')
     else:
         form = EditProfileForm(instance=request.user)
+        p_form = ProfileUpdateForm(instance=request.user.profile)
 
-    context = {'form': form}
+    context = {
+        'form': form,
+        'p_form': p_form
+    }
     return render(request, 'edit_profile.html', context)
 
 

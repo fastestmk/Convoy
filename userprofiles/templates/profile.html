@@ -4,6 +4,7 @@
 <div>
     <h1>Profile</h1><br>
     {% if user.is_authenticated %}
+        <img class="rounded-circle account-img" src="{{ user.profile.image.url }}">
         <b >Name:</b> {{user.first_name }}</p>
         <b > Surname:</b> {{user.last_name }}</p>
         <b  >Username:</b> {{ user.username }}</p>
