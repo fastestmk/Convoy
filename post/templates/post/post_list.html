@@ -4,6 +4,7 @@
 <ol class="list-group">
   {% for post in Posts %}
     <li class="list-group-item">
+      <img height="55" width="55" class="rounded-circle account-img" src="{{ post.user.image.url }}">
       <a  style="color:#FF2B00" href="http://127.0.0.1:8000/detail/{{ post.pk }}/">{{ post.title }}</a>
       <div class="Link-detail">
         <span>

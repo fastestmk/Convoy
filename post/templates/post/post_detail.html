@@ -9,7 +9,9 @@
         <a style="color:#13220D" href="http://127.0.0.1:8000/detail/{{ post.pk }}/">
           <h1>{{ post.title }}</h1>
         </a>
+
       </h3>
+       <img height="75" width="75" class="rounded-circle account-img" src="{{ post.user.image.url }}">
         <span style="color:#7DB7C9">Submited by</span>
         <a href="http://127.0.0.1:8000/userPost/{{ post.user }}/" style="color:red">@{{ post.user }}</a>
         <a style="color:blue">{{post.date}}</a>
@@ -45,6 +47,7 @@
   {% for comment in post.comments.all %}
     <ul class="list-group">
       <li class="list-group-item">
+        <img height="75" width="75" class="rounded-circle account-img" src="{{ comment.author.image.url }}">
         <a href="http://127.0.0.1:8000/userPost/{{ comment.author }}/" style="color:blue">@{{ comment.author }}</a>
         <a style="color:red">{{post.date}}</a>
         <div class="Link-detail">

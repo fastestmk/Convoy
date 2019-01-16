@@ -2,9 +2,9 @@
 
 {% block content %}
 <div>
-    <h1>Profile</h1><br>
+    <h1>Profile</h1>
     {% if user.is_authenticated %}
-        <img class="rounded-circle account-img" src="{{ user.profile.image.url }}">
+        <img height="100" width="100" class="rounded-circle account-img" src="{{ user.profile.image.url }}"><br>
         <b >Name:</b> {{user.first_name }}</p>
         <b > Surname:</b> {{user.last_name }}</p>
         <b  >Username:</b> {{ user.username }}</p>
