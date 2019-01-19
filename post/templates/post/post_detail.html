@@ -13,7 +13,7 @@
       </h3>
        <img height="75" width="75" class="rounded-circle account-img" src="{{ post.user.image.url }}">
         <span style="color:#7DB7C9">Submited by</span>
-        <a href="http://127.0.0.1:8000/{{ post.user }}/" style="color:red">@{{ post.user }}</a>
+        <a href="http://127.0.0.1:8000/@{{ post.user }}/" style="color:red">@{{ post.user }}</a>
         <a style="color:blue">{{post.date}}</a>
         {% if user.is_authenticated %}
             {% if  user == post.user.user %}
