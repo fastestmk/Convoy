@@ -9,6 +9,6 @@ urlpatterns = [
     path('detail/<int:pk>/comment/', view=CommentView.as_view(), name='comment'),
     path('edit/<int:pk>/', view=PostEdit.as_view(), name='edit'),
     path('delete/<int:pk>/', view=PostDelete, name='delete'),
-    path('userPost/<username>/', view=userPost, name="userPost"),
+    path('<username>/', view=userPost, name="userPost"),
     path('SearchPost/', view=searchPost, name='searchPost'),
 ]

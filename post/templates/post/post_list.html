@@ -8,7 +8,7 @@
       <a  style="color:#FF2B00" href="http://127.0.0.1:8000/detail/{{ post.pk }}/">{{ post.title }}</a>
       <div class="Link-detail">
         <span>
-          <a href="http://127.0.0.1:8000/userPost/{{ post.user }}/" style="color:blue">@{{ post.user }}</a>
+          <a href="http://127.0.0.1:8000/{{ post.user }}/" style="color:blue">@{{ post.user }}</a>
           <a style="color:orange">{{post.date}}</a>
         </span>
         <a class="Link-link"  style="color:black">| comments: {{ post.comments.count }}</a>
@@ -22,16 +22,13 @@
       {% if Posts.has_previous %}
         <a href="?page={{ Posts.previous_page_number }}">Next Page</a>
       {% endif %}
-
       <span>
          {{ Posts.number }} / {{ Posts.paginator.num_pages }}
       </span>
-
       {% if Posts.has_next %}
         <a href="?page={{ Posts.next_page_number }}">Previous Page</a>
       {% endif %}
     </span>
   </div>
 </center>
-
 {% endblock content %}

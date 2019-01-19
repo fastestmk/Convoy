@@ -28,6 +28,7 @@ def searchPost(request):
             return render(request, 'post/404.html')
 
 
+'''
 def userPost(request, username):
     user = User.objects.get(username=username)
     post_list = Post.objects.filter(user=user.pk)
@@ -47,6 +48,29 @@ def userPost(request, username):
         messages.add_message(request, messages.INFO, "Posts by " + username + " user.")
 
     return render(request, 'post/post_list.html', {'Posts': Posts})
+'''
+
+
+def userPost(request, username):
+    user = User.objects.get(username=username)
+    post_list = Post.objects.filter(user=user.pk)
+
+    paginator = Paginator(post_list, 10)
+    page = request.GET.get('page')
+    try:
+        Posts = paginator.page(page)
+    except PageNotAnInteger:
+        Posts = paginator.page(1)
+    except EmptyPage:
+        Posts = paginator.page(paginator.num_pages)
+
+    if post_list == []:
+        messages.add_message(request, messages.INFO, "The user does not have a share!")
+
+    context = {}
+    context["user"] = user
+    context["Posts"] = Posts
+    return render(request, 'post/user_profile.html', context)
 
 
 def PostList(request):

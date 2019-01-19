@@ -13,7 +13,7 @@
       </h3>
        <img height="75" width="75" class="rounded-circle account-img" src="{{ post.user.image.url }}">
         <span style="color:#7DB7C9">Submited by</span>
-        <a href="http://127.0.0.1:8000/userPost/{{ post.user }}/" style="color:red">@{{ post.user }}</a>
+        <a href="http://127.0.0.1:8000/{{ post.user }}/" style="color:red">@{{ post.user }}</a>
         <a style="color:blue">{{post.date}}</a>
         {% if user.is_authenticated %}
             {% if  user == post.user.user %}
@@ -48,7 +48,7 @@
     <ul class="list-group">
       <li class="list-group-item">
         <img height="75" width="75" class="rounded-circle account-img" src="{{ comment.author.image.url }}">
-        <a href="http://127.0.0.1:8000/userPost/{{ comment.author }}/" style="color:blue">@{{ comment.author }}</a>
+        <a href="http://127.0.0.1:8000/{{ comment.author }}/" style="color:blue">@{{ comment.author }}</a>
         <a style="color:red">{{post.date}}</a>
         <div class="Link-detail">
           <p class="media-body pb-3 mb-0 small lh-125 border-bottom border-gray">
