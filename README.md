@@ -5,8 +5,7 @@ Convoy is a social media project made with Django and Bootstrap.
 
 ## Installation
 ```
-    pip install django
-    pip install djangorestframework
+pip install -r requirements.txt
 ```
 ## Features
     Share and replay posts.
