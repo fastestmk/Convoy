@@ -4,14 +4,14 @@
 <ol class="list-group">
   {% for post in Posts %}
     <li class="list-group-item">
-      <img height="55" width="55" class="rounded-circle account-img" src="{{ post.user.image.url }}">
-      <a  style="color:#FF2B00" href="http://127.0.0.1:8000/detail/{{ post.pk }}/">{{ post.title }}</a>
+      <a  style="color:black;font-size:30px" href="http://127.0.0.1:8000/detail/{{ post.pk }}/">{{ post.title }}</a>
       <div class="Link-detail">
         <span>
-          <a href="http://127.0.0.1:8000/@{{ post.user }}/" style="color:blue">@{{ post.user }}</a>
-          <a style="color:orange">{{post.date}}</a>
+          <a style="color:#4E4C54">{{post.date}}</a>
         </span>
-        <a class="Link-link"  style="color:black">| comments: {{ post.comments.count }}</a>
+        <a class="Link-link"  style="color:#4E4C54">| comments: {{ post.comments.count }} |</a>
+        <img height="30" width="30" class="rounded-circle account-img" src="{{ post.user.image.url }}">
+        <a href="http://127.0.0.1:8000/@{{ post.user }}/" style="color:blue"> @{{ post.user }}</a>
       </div>
     </li>
   {% endfor %}

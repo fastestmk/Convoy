@@ -1,5 +1,5 @@
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
-from django.views.generic import CreateView, UpdateView
+from django.views.generic import CreateView, UpdateView, DetailView
 from django.shortcuts import redirect, render, get_object_or_404
 from django.contrib.auth.models import User
 from django.contrib import messages
@@ -65,11 +65,22 @@ def PostList(request):
     return render(request, 'post/post_list.html', {'Posts': Posts})
 
 
+'''
 def PostDetail(request, pk):
     queryset = Post.objects.get(pk=pk)
     template_name = "post/post_detail.html"
     context = dict(post=queryset)
     return render(request, template_name, context)
+'''
+
+
+class PostDetail(DetailView):
+    template_name = "post/post_detail.html"
+
+    def get(self, request, pk):
+        queryset = Post.objects.get(pk=pk)
+        context = dict(post=queryset)
+        return render(request, self.template_name, context)
 
 
 def PostDelete(request, pk):
