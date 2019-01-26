@@ -1,6 +1,6 @@
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
-from django.views.generic import CreateView, UpdateView, DetailView
-from django.shortcuts import redirect, render, get_object_or_404
+from django.views.generic import CreateView, UpdateView, DetailView, DeleteView
+from django.shortcuts import redirect, render
 from django.contrib.auth.models import User
 from django.contrib import messages
 from django.urls import reverse_lazy
@@ -28,50 +28,48 @@ def searchPost(request):
             return render(request, 'post/404.html')
 
 
-def UserProfile(request, username):
-    user = User.objects.get(username=username)
-    post_list = Post.objects.filter(user=user.pk)
+class UserProfile(DetailView):
+    template_name = "post/user_profile.html"
+    model = Post, User
 
-    paginator = Paginator(post_list, 10)
-    page = request.GET.get('page')
-    try:
-        Posts = paginator.page(page)
-    except PageNotAnInteger:
-        Posts = paginator.page(1)
-    except EmptyPage:
-        Posts = paginator.page(paginator.num_pages)
+    def get(self, request, username):
+        user = User.objects.get(username=username)
+        post_list = Post.objects.filter(user=user.pk)
+        paginator = Paginator(post_list, 10)
+        page = request.GET.get('page')
 
-    if post_list == []:
-        messages.add_message(request, messages.INFO, "The user does not have a share!")
+        try:
+            Posts = paginator.page(page)
+        except PageNotAnInteger:
+            Posts = paginator.page(1)
+        except EmptyPage:
+            Posts = paginator.page(paginator.num_pages)
 
-    context = {}
-    context["user"] = user
-    context["Posts"] = Posts
-    return render(request, 'post/user_profile.html', context)
+        if post_list == []:
+            messages.add_message(request, messages.WARNING, "The user does not have a share!")
 
-
-def PostList(request):
-    Posts = Post.objects.all()[::-1]
-
-    paginator = Paginator(Posts, 5)
-    page = request.GET.get('page')
-    try:
-        Posts = paginator.page(page)
-    except PageNotAnInteger:
-        Posts = paginator.page(1)
-    except EmptyPage:
-        Posts = paginator.page(paginator.num_pages)
-
-    return render(request, 'post/post_list.html', {'Posts': Posts})
+        context = dict(Posts=Posts, user=user)
+        return render(request, self.template_name, context)
 
 
-'''
-def PostDetail(request, pk):
-    queryset = Post.objects.get(pk=pk)
-    template_name = "post/post_detail.html"
-    context = dict(post=queryset)
-    return render(request, template_name, context)
-'''
+class PostList(DetailView):
+    template_name = "post/post_list.html"
+    model = Post
+
+    def get(self, request):
+        Posts = Post.objects.all()[::-1]
+        paginator = Paginator(Posts, 5)
+        page = request.GET.get('page')
+
+        try:
+            Posts = paginator.page(page)
+        except PageNotAnInteger:
+            Posts = paginator.page(1)
+        except EmptyPage:
+            Posts = paginator.page(paginator.num_pages)
+
+        context = {'Posts': Posts}
+        return render(request, self.template_name, context)
 
 
 class PostDetail(DetailView):
@@ -83,10 +81,13 @@ class PostDetail(DetailView):
         return render(request, self.template_name, context)
 
 
-def PostDelete(request, pk):
-    post = get_object_or_404(Post, pk=pk).delete()
-    messages.add_message(request, messages.INFO, "Your post has been deleted!")
-    return redirect("post:list")
+class PostDelete(DeleteView):
+    model = Post
+
+    def get(self, request, pk):
+        post = Post.objects.get(pk=pk).delete()
+        messages.add_message(request, messages.SUCCESS, "Your post has been deleted!")
+        return redirect("post:list")
 
 
 class PostEdit(UpdateView):
