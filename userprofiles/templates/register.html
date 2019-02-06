@@ -1,29 +1,27 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<h2 class="text-center">Register</h2>
-<div  style="text-align:center"  class="col-md-12">
-  <form method="POST" action="{% url 'Profile:sign_up' %}">
-    {% csrf_token %}
-    {% if form.errors %}
-      <div class="alert alert-warning alert-dismissable" role="alert">
-        <button class="close" data-dismiss="alert">
-          <small><sup></sup></small>
-        </button>
-        <p> Your Form Has Errors...</p>
-        {% for field in form %}
-          {% if field.errors %}
-              {{ field.errors }}
-          {% endif %}
-       {% endfor %}
-      </div>
-    {% endif %}
-
-    <div>
-      {{form.as_p}}
-    </div>
-
-    <input type="submit" value="Register" class="btn btn-danger btn-lg">
-  </form>
+<div class="nes-container with-title">
+    <h2 class="title">Register</h2>
+    <form method="POST" action="{% url 'Profile:sign_up' %}">
+        {% csrf_token %}
+        {% if form.errors %}
+        <div class="alert alert-warning alert-dismissable" role="alert">
+            <button class="close" data-dismiss="alert">
+            <small><sup></sup></small>
+            </button>
+            <p> Your Form Has Errors...</p>
+            {% for field in form %}
+            {% if field.errors %}
+            {{ field.errors }}
+            {% endif %}
+            {% endfor %}
+        </div>
+        {% endif %}
+        <div class="nes-field">
+            {{form.as_p}}
+        </div>
+        <input type="submit" value="Register" class="nes-btn is-warning">
+    </form>
 </div>
 {% endblock %}

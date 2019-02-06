@@ -1,32 +1,15 @@
 {% extends 'base.html' %}
 {% block content %}
-<div >
-  <h2> Edit Profile </h2><br>
-  <form method="POST" action="{% url 'Profile:edit_profile' %}" enctype="multipart/form-data">
-    {% csrf_token %}
-    {% if form.errors %}
-      <div class="alert alert-warning alert-dismissable" role="alert">
-        <button class="close" data-dismiss="alert">
-          <small><sup></sup></small>
-        </button>
-          <p> Your Form Has Errors...</p>
-          {% for field in form %}
-            {% if field.errors %}
-              {{ field.errors }}
-            {% endif %}
-         {% endfor %}
-        </div>
-    {% endif %}
-    <div >
-      {{form.as_p}}
-      {{p_form}}
-    </div>
-    <input type="submit" value="Edit Profile" class="btn btn-danger">
-  </form><br/>
-  <p>
-    <a href="{% url 'Profile:change_password' %}">Click Here</a>
-    <a >To change your password </a>
-  </p>
-  <br/><br/>
-{% endblock %}
+<div class="nes-container with-title">
+    <h2 class="title"> Edit Profile </h2>
+        <form   method="POST" action="{% url 'Profile:edit_profile' %}" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div >
+                {{form.as_p}}
+                {{p_form}}
+            </div>
+            <input  type="submit" value="Update" class="nes-btn is-warning">
+        </form>
+    <a href="{% url 'Profile:change_password' %}">Click Here</a><a > to change your password.</a>
 </div>
+{% endblock %}

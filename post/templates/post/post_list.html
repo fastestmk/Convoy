@@ -1,10 +1,12 @@
 {% extends "base.html" %}
 
 {% block content %}
-<ol class="list-group">
+
+
+<ol>
   {% for post in Posts %}
-    <li class="list-group-item">
-      <a  style="color:black;font-size:30px" href="http://127.0.0.1:8000/detail/{{ post.pk }}/">{{ post.title }}</a>
+    <li  class="nes-container is-rounded">
+      <a  style="color:black;font-size:18px" href="http://127.0.0.1:8000/detail/{{ post.pk }}/">{{ post.title }}</a>
       <div class="Link-detail">
         <span>
           <a style="color:#4E4C54">{{post.date}}</a>
@@ -16,6 +18,8 @@
     </li>
   {% endfor %}
   </ol>
+
+
   <center>
   <div>
     <span>
