@@ -2,11 +2,11 @@
 
 {% block content %}
 <div class="nes-container with-title">
-    <h2 class="title">{{ post.title }}</h2>
+    <h2 style="color:blue" class="title">{{ post.title }}</h2>
     <img height="35" width="35" class="rounded-circle account-img" src="{{ post.user.image.url }}">
     <span style="color:#7DB7C9">Submited by</span>
     <a href="http://127.0.0.1:8000/@{{ post.user }}/" style="color:red">@{{ post.user }}</a>
-    <span style="color:blue">{{post.date}}</span>
+    <span style="color:#BDA403">{{post.date}}</span>
     {% if user.is_authenticated %}
         {% if  user == post.user.user %}
         <div style="float: right;">
@@ -26,15 +26,15 @@
 </div>
 
   {% if user.is_authenticated %}
-      <hr>
-        <div style="text-align:center">
-            <a  class="nes-btn is-primary" href="{% url 'post:comment' post.id %}">Add new comment</a>
-       </div>
-      <hr>
+  <hr>
+    <div style="text-align:center">
+        <a  class="nes-btn is-warning" href="{% url 'post:comment' post.id %}">Add new comment</a>
+   </div>
+  <hr>
   {% endif %}
 
+<h2 style="text-align:center" >Comments</h2>
 {% for comment in post.comments.all %}
-    <h2 style="text-align:center" >Comments</h2>
     <ul class="nes-container is-rounded">
         <li class="list-group-item">
             <img height="25" width="25" class="rounded-circle account-img" src="{{ comment.author.image.url }}">

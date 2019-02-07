@@ -34,21 +34,28 @@
         </ul>
     </nav>
 
-      {% if messages %}
-        {%for message in messages %}
-        <div class="alert alert-warning alert-dismissable" role="alert">
-          <button class="close" data-dismiss="alert">
-            <small><sup></sup></small>
-          </button>
-          {{message}}
-        </div>
-        {% endfor %}
-      {% endif %}
+    <a class="github-link" href="https://github.com/furkanonder/Convoy" target="_blank">
+      <p class="nes-balloon from-right">Fork me<br />on GitHub</p>
+      <i class="nes-octocat"></i>
+    </a>
 
+<!--
+    {% if messages %}
+        {%for message in messages %}
+            <div class="alert alert-warning alert-dismissable" role="alert">
+              <button class="close" data-dismiss="alert">
+                <small><sup></sup></small>
+              </button>
+              {{message}}
+            </div>
+        {% endfor %}
+    {% endif %}
+-->
     <div  style ="padding-top: 20px"class="container">
         {% block content %}
         {% endblock content %}
     </div>
+
 
 </body>
 </html>

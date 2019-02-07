@@ -1,20 +1,16 @@
 {% extends "base.html" %}
-
 {% block content %}
-
 <div class="nes-container with-title">
     <h2 class="title" >New comment</h2>
     <p > {{New.url}}</p>
-
     <form action="" method="POST">
         {% csrf_token %}
         {% for field in form  %}
             <div class="form-group">
-            {{ field.errors }}
-            {{ field }}
+                {{ field }}
             </div>
         {% endfor %}
-        <input  class="btn  btn-success btn-lg active"  value="Send"  type="submit">
+        <input  class="nes-btn is-success"  value="Send"  type="submit">
     </form>
 </div>
 {% endblock content %}
