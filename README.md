@@ -1,7 +1,7 @@
 # Convoy
 Convoy is a social media project made with Django and Bootstrap.<br>
 
-![Convoy is now live!](http://www.convoy.tk/)
+[Convoy is now live!](http://www.convoy.tk/)
 
 ## Installation
 ```
