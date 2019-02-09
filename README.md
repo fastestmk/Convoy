@@ -12,3 +12,6 @@ pip install -r requirements.txt
     Search for users and titles.
     Users can edit their profile(name,surname,email and password)
     Rest-Api (you can get the post contents)
+    
+## To do list
+* Comment replay
