@@ -25,13 +25,27 @@
     {{ post.text }}
 </div>
 
-  {% if user.is_authenticated %}
+{% if user.is_authenticated %}
+ <hr>
+<div>
+    <form method="POST" action="{% url 'post:post' post.id %}" style="text-align:center">
+    {% csrf_token %}
+    <textarea style="max-width: 100%;" class="form-control" name="metin" rows="5"></textarea>
+    <br>
+    <button type="submit" class="nes-btn is-primary"> Add new comment </button>
+    </form>
+</div>
+ <hr>
+{% endif %}
+
+<!--
   <hr>
     <div style="text-align:center">
         <a  class="nes-btn is-warning" href="{% url 'post:comment' post.id %}">Add new comment</a>
    </div>
   <hr>
-  {% endif %}
+
+-->
 
 <h2 style="text-align:center" >Comments</h2>
 {% for comment in post.comments.all %}

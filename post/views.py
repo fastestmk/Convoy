@@ -4,9 +4,21 @@ from django.shortcuts import redirect, render
 from django.contrib.auth.models import User
 from django.contrib import messages
 from django.urls import reverse_lazy
-
+from django.views import View
+from django.http import HttpResponseRedirect
+from django.urls import reverse
 from .models import Post, Comment
 from .forms import PostForm, CommentForm
+
+
+def post(request, pk):
+    metin = request.POST['metin']
+    if len(metin) == 0:
+        messages.add_message(request, messages.INFO, "The text can not be blank!")
+        return HttpResponseRedirect(reverse('post:detail', args=(pk,)))
+    else:
+        Comment(userPost=Post.objects.get(pk=pk), author=request.user.profile, text=metin).save()
+    return HttpResponseRedirect(reverse('post:detail', args=(pk,)))
 
 
 def searchPost(request):

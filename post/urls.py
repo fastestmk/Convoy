@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import PostList, NewPost, PostDetail, CommentView, PostDelete, PostEdit, searchPost, UserProfile
+from .views import PostList, NewPost, PostDetail, CommentView, PostDelete, PostEdit, searchPost, UserProfile, post
 
 app_name = 'post'
 urlpatterns = [
@@ -11,4 +11,5 @@ urlpatterns = [
     path('delete/<int:pk>/', view=PostDelete.as_view(), name='delete'),
     path('@<username>/', view=UserProfile.as_view(), name="userPost"),
     path('SearchPost/', view=searchPost, name='searchPost'),
+    path('detail/<int:pk>/post/', view=post, name='post'),
 ]
