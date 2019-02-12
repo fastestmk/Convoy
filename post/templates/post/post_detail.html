@@ -26,26 +26,28 @@
 </div>
 
 {% if user.is_authenticated %}
+<script>
+$(document).ready(function() {
+     $(':button[type="submit"]').prop('disabled', true);
+     $('textarea[type="text"]').keyup(function() {
+        if($(this).val() != '') {
+           $(':button[type="submit"]').prop('disabled', false);
+        }
+     });
+ });
+</script>
+
  <hr>
-<div>
-    <form method="POST" action="{% url 'post:post' post.id %}" style="text-align:center">
-    {% csrf_token %}
-    <textarea style="max-width: 100%;" class="form-control" name="metin" rows="5"></textarea>
-    <br>
-    <button type="submit" class="nes-btn is-primary"> Add new comment </button>
-    </form>
-</div>
+    <div>
+        <form method="POST" action="{% url 'post:post' post.id %}" style="text-align:center">
+        {% csrf_token %}
+        <textarea  class="nes-textarea" type="text" style="max-width: 50%;" class="form-control" name="textField" rows="5"></textarea>
+        <br>
+        <button type="submit" class="nes-btn is-primary" value="send" > Add new comment </button>
+        </form>
+    </div>
  <hr>
 {% endif %}
-
-<!--
-  <hr>
-    <div style="text-align:center">
-        <a  class="nes-btn is-warning" href="{% url 'post:comment' post.id %}">Add new comment</a>
-   </div>
-  <hr>
-
--->
 
 <h2 style="text-align:center" >Comments</h2>
 {% for comment in post.comments.all %}

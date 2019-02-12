@@ -12,12 +12,8 @@ from .forms import PostForm, CommentForm
 
 
 def post(request, pk):
-    metin = request.POST['metin']
-    if len(metin) == 0:
-        messages.add_message(request, messages.INFO, "The text can not be blank!")
-        return HttpResponseRedirect(reverse('post:detail', args=(pk,)))
-    else:
-        Comment(userPost=Post.objects.get(pk=pk), author=request.user.profile, text=metin).save()
+    text = request.POST['textField']
+    Comment(userPost=Post.objects.get(pk=pk), author=request.user.profile, text=text).save()
     return HttpResponseRedirect(reverse('post:detail', args=(pk,)))
 
 
