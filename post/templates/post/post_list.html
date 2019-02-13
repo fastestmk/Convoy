@@ -3,12 +3,12 @@
 <ol>
   {% for post in Posts %}
     <li  class="nes-container is-rounded">
-      <a  style="font-size:18px" href="http://127.0.0.1:8000/detail/{{ post.pk }}/">{{ post.title }}</a>
+      <a  style="font-size:18px" href="{% url 'post:detail' pk=post.pk %}">{{ post.title }}</a>
       <div>
         <span style="color:#4E4C54">{{post.date}}</span>
         <span  style="color:#4E4C54">| comments: {{ post.comments.count }} |</span>
         <img height="30" width="30" class="rounded-circle account-img" src="{{ post.user.image.url }}">
-        <a href="http://127.0.0.1:8000/@{{ post.user }}/" style="color:#03BD98"> @{{ post.user }}</a>
+        <a href="{% url 'post:userPost' username=post.user %}" style="color:#03BD98"> @{{ post.user }}</a>
       </div>
     </li>
   {% endfor %}

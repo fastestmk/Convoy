@@ -5,17 +5,17 @@
     <h2 style="color:blue" class="title">{{ post.title }}</h2>
     <img height="35" width="35" class="rounded-circle account-img" src="{{ post.user.image.url }}">
     <span style="color:#7DB7C9">Submited by</span>
-    <a href="http://127.0.0.1:8000/@{{ post.user }}/" style="color:red">@{{ post.user }}</a>
+    <a href="{% url 'post:userPost' username=post.user %}" style="color:red">@{{ post.user }}</a>
     <span style="color:#BDA403">{{post.date}}</span>
     {% if user.is_authenticated %}
         {% if  user == post.user.user %}
         <div style="float: right;">
             <div id="displayDelete{{post.id}}" style="display: none;">
-                <a class="nes-btn is-warning" href="/delete/{{post.id}}">Delete</a>
+                <a class="nes-btn is-warning" href="{% url 'post:delete' pk=post.id %}">Delete</a>
                 <a class="nes-btn is-error" onclick="cancel({{ post.id }})">Cancel</a>
             </div>
             <div id="delete{{post.id}}">
-                <a class="nes-btn is-warning"  href="http://127.0.0.1:8000/edit/{{ post.id }}/">Edit</a>
+                <a class="nes-btn is-warning"  href="{% url 'post:edit' pk=post.id %}">Edit</a>
                 <a class="nes-btn is-error"  onclick="display({{post.id}})">Delete</a>
             </div>
         </div>
@@ -54,7 +54,7 @@ $(document).ready(function() {
     <ul class="nes-container is-rounded">
         <li class="list-group-item">
             <img height="25" width="25" class="rounded-circle account-img" src="{{ comment.author.image.url }}">
-            <a href="http://127.0.0.1:8000/@{{ comment.author }}/" style="color:blue">@{{ comment.author }}</a>
+            <a href="{% url 'post:userPost' username=comment.author %}" style="color:blue">@{{ comment.author }}</a>
             <span style="color:red">{{post.date}}</span>
             <div>
                 {{ comment }}
