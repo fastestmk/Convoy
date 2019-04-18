@@ -3,12 +3,12 @@
 {% block content %}
 <div class="nes-container with-title">
     <h1 style="color:blue" class="title">Profile</h1>
-    {% if user.is_authenticated %}
-        <img height="100" width="100" class="rounded-circle account-img" src="{{ user.profile.image.url }}"><br>
-        <b >Name:</b> {{user.first_name }}</p>
-        <b > Surname:</b> {{user.last_name }}</p>
-        <b  >Username:</b> {{ user.username }}</p>
-        <b >Email:</b> {{ user.email }}</p>
+    {% if user.is_authenticated %} 
+        <img height="100" width="100" class="rounded-circle" src="{{ user.profile.image.url }}"><br>
+        <b>Name:</b> {{user.first_name }}</p>
+        <b> Surname:</b> {{user.last_name }}</p>
+        <b>Username:</b> {{ user.username }}</p>
+        <b>Email:</b> {{ user.email }}</p>
     {% endif %}
     <a class="nes-btn is-success" href="http://127.0.0.1:8000/edit_profile/" role="button">Edit profile</a>
     {% endblock %}

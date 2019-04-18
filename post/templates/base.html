@@ -5,11 +5,11 @@
 <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>Convoy</title>
-    <link rel="stylesheet" href="{% static "css/style.css" %}">
-    <link rel="stylesheet" href="{% static "css/PressStart2P.css" %}">
-    <link rel="stylesheet" href="{% static "css/nes.min.css" %}">
-    <script type="text/javascript" src="{% static "js/jquery.min.js" %}"></script>
-    <script type="text/javascript" src="{% static "js/script.js" %}"></script>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'css/PressStart2P.css' %}">
+    <link rel="stylesheet" href="{% static 'css/nes.min.css' %}">
+    <script type="text/javascript" src="{% static 'js/jquery.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/script.js' %}"></script>
 </head>
 <body>
 
@@ -35,8 +35,16 @@
         </ul>
     </nav>
 
+    {% if messages %}
+        {%for message in messages %}
+        <div class="alert alert-warning alert-dismissable" role="alert">
+            {{message}}
+        </div>
+        {% endfor %}
+    {% endif %}
+
     <a class="github-link" href="https://github.com/furkanonder/Convoy" target="_blank">
-      <p class="nes-balloon from-right">Fork me<br />on GitHub</p>
+      <p class="nes-balloon from-right">Fork me <br/>on GitHub</p>
       <i class="nes-octocat"></i>
     </a>
 

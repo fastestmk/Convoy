@@ -83,3 +83,8 @@ nav a:hover::before {
 .github-link > i.nes-octocat {
   align-self: flex-end;
 }
+
+.rounded-circle {
+  border-radius:50%;
+  overflow:hidden;
+}
