@@ -1,57 +1,52 @@
-{% load static %}
-<!DOCTYPE html>
-<html lang="en">
+{% load staticfiles %}
+<html>
 <head>
 <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>Convoy</title>
-    <link rel="stylesheet" href="{% static 'css/style.css' %}">
-    <link rel="stylesheet" href="{% static 'css/PressStart2P.css' %}">
-    <link rel="stylesheet" href="{% static 'css/nes.min.css' %}">
-    <script type="text/javascript" src="{% static 'js/jquery.min.js' %}"></script>
-    <script type="text/javascript" src="{% static 'js/script.js' %}"></script>
-</head>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"><title>Convoy</title>
+  <link rel='stylesheet' href='{% static "css/base.css" %}' />
+  <link rel='stylesheet' href='{% static "css/style.css" %}' />
+  <link rel="stylesheet" href="{% static 'css/PressStart2P.css' %}">
+  <link rel="stylesheet" href="{% static 'css/nes.min.css' %}">
+  <script type="text/javascript" src="{% static 'js/jquery.min.js' %}"></script>
+  <script type="text/javascript" src="{% static 'js/marked.min.js' %}"></script>
+  <script type="text/javascript" src="{% static 'js/comment.js' %}"></script>
 <body>
 
-    <nav>
-        <ul>
-            <li><a href="{% url 'post:list' %}">Posts</a></li>
-            <li>
-                <form role="search" method="POST" action="{% url 'post:searchPost' %}">
-                {% csrf_token %}
-                <input placeholder="type something..." aria-label="Search" type="text" name="query">
-                <button type="submit">Search</button>
-                </form>
-            </li>
-            <li><a href="{% url 'Api:posts_api' %}">Api</a></li>
-            {% if user.is_authenticated %}
-            <li><a href="{% url 'post:add' %}">New Post</a></li>
-            <li><a href="{% url 'Profile:profile' %}">{{user}}</a></li>
-            <li><a  href="{% url 'Profile:sign_out' %}">Logout</a></li>
-            {% else %}
-            <li><a href="{% url 'Profile:sign_up' %}">Sign Up</a></li>
-            <li><a  href="{% url 'Profile:sign_in' %}">Sign In</a></li>
-            {% endif %}
-        </ul>
-    </nav>
+  <nav>
+    <ul>
+      <li><a href="{% url 'post:list' %}">Posts</a></li>
+      <li>
+        <form method='GET' action='' class='row'>
+          <div class='input-group'>
+            <input class='form-control' type='text' name='q' placeholder='type something...' value='{{ request.GET.q }}'/>
+            <button class="nes-btn is-success" type='submit'>Search</button>        
+          </div>
+        </form>
+      </li>
+      <li><a href="{% url 'Api:posts_api' %}">Api</a></li>
+      {% if user.is_authenticated %}
+        <li><a href="{% url 'post:create' %}">New Post</a></li>
+        <li><a href="{% url 'Profile:profile' %}">{{user}}</a></li>
+        <li><a href="{% url 'Profile:sign_out' %}">Logout</a></li>
+        {% else %}
+        <li><a href="{% url 'Profile:sign_up' %}">Sign Up</a></li>
+        <li><a href="{% url 'Profile:sign_in' %}">Sign In</a></li>
+      {% endif %}
+    </ul>
+  </nav>
 
-    {% if messages %}
-        {%for message in messages %}
-        <div class="alert alert-warning alert-dismissable" role="alert">
-            {{message}}
-        </div>
-        {% endfor %}
-    {% endif %}
-
-    <a class="github-link" href="https://github.com/furkanonder/Convoy" target="_blank">
-      <p class="nes-balloon from-right">Fork me <br/>on GitHub</p>
-      <i class="nes-octocat"></i>
-    </a>
-
-    <div  style ="padding-top: 20px"class="container">
-        {% block content %}
-        {% endblock content %}
+  {% if messages %}
+    {%for message in messages %}
+    <div class="alert alert-warning alert-dismissable" role="alert">
+      {{message}}
     </div>
+    {% endfor %}
+  {% endif %}
+
+  <div class='container'>
+    {% block content %}
+    {% endblock content %}
+  </div>
 
 </body>
 </html>

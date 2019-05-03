@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% block content %}
+
+<br><hr>
+
+<div class='col-sm-6 col-sm-offset-3'>    
+  <p>{{ comment.content }}</p>
+  <footer>
+    via <a style="color:red"> @{{ comment.user }}</a>
+    <p style="color:blue">| {{ comment.timestamp|timesince }} ago 
+    {% if comment.children.count > 0 %}
+      {{ comment.children.count }} 
+      Comment{% if comment.children.count > 1 %}s{% endif %} 
+    {% endif %}</p>
+  </footer>
+  <hr/>
+  <div>
+    {% for child_comment in comment.children %}
+      <blockquote>
+        <p>{{ child_comment.content }}</p>
+        <footer >
+          via <a style="color:red"> @{{child_comment.user}}</a>
+          <p style="color:blue">| {{ child_comment.timestamp|timesince }} ago </p>
+        </footer>
+      </blockquote>
+      <hr>
+   {% endfor %}
+
+    <form method="POST" action="."> {% csrf_token %}
+      {{ form }}
+      <input type='hidden' name='parent_id' value='{{ comment.id }}'>
+      <br>
+      <input type='submit' value='Reply' class="nes-btn is-primary">
+    </form>
+</div>
+</div>
+
+{% endblock content %}

@@ -1,66 +1,88 @@
 {% extends "base.html" %}
-
 {% block content %}
+<br>
+
 <div class="nes-container with-title">
-    <h2 style="color:blue" class="title">{{ post.title }}</h2>
-    <img height="35" width="35" class="rounded-circle account-img" src="{{ post.user.image.url }}">
-    <span style="color:#7DB7C9">Submited by</span>
-    <a href="{% url 'post:userPost' username=post.user %}" style="color:red">@{{ post.user }}</a>
-    <span style="color:#BDA403">{{post.date}}</span>
-    {% if user.is_authenticated %}
-        {% if  user == post.user.user %}
-        <div style="float: right;">
-            <div id="displayDelete{{post.id}}" style="display: none;">
-                <a class="nes-btn is-warning" href="{% url 'post:delete' pk=post.id %}">Delete</a>
-                <a class="nes-btn is-error" onclick="cancel({{ post.id }})">Cancel</a>
-            </div>
-            <div id="delete{{post.id}}">
-                <a class="nes-btn is-warning"  href="{% url 'post:edit' pk=post.id %}">Edit</a>
-                <a class="nes-btn is-error"  onclick="display({{post.id}})">Delete</a>
-            </div>
-        </div>
-        {% endif %}
+  <h2 style="color:blue" class="title">{{ title }}</h2>
+  <img height="35" width="35" class="rounded-circle" src="{{ user.profile.image.url }}">
+  <span style="color:#7DB7C9">Submited by</span>
+  <a href="" style="color:red">@{{ instance.user }}</a>
+  <span style="color:#BDA403">{{instance.publish}}</span>
+
+  {% if user.is_authenticated %}
+    {% if user == instance.user %}
+    <div style="float:right;">
+      <a class="nes-btn is-error" href="{% url 'post:delete' slug=instance.slug%}">
+        Delete
+      </a>
+      <a class="nes-btn is-success"  href="{% url 'post:update' slug=instance.slug%}">
+        Update
+      </a>
+    </div>
     {% endif %}
-    <br>
-    {{ post.text }}
+  {% endif %}
+
+  {% if instance.image %}
+    <img src='{{ instance.image.url }}' class='img-responsive' />
+  {% endif %}
+  {{ instance.get_markdown }}
 </div>
 
+<br>
 {% if user.is_authenticated %}
-<script>
-$(document).ready(function() {
-     $(':button[type="submit"]').prop('disabled', true);
-     $('textarea[type="text"]').keyup(function() {
-        if($(this).val() != '') {
-           $(':button[type="submit"]').prop('disabled', false);
-        }
-     });
- });
-</script>
 
- <hr>
-    <div>
-        <form method="POST" action="{% url 'post:post' post.id %}" style="text-align:center">
-        {% csrf_token %}
-        <textarea  class="nes-textarea" type="text" style="max-width: 50%;" class="form-control" name="textField" rows="5"></textarea>
-        <br>
-        <button type="submit" class="nes-btn is-primary" value="send" > Add new comment </button>
-        </form>
-    </div>
- <hr>
+<div style="text-align: center">
+    <h2 class="title" >New comment</h2>
+  <form method="POST" action=".">
+    {% csrf_token %}
+    {{ comment_form }}
+    <br>
+    <input type='submit' value='Post comment'  class="nes-btn is-primary">
+  </form>  
+</div>
 {% endif %}
+<hr>
+    
+{% for comment in comments %}
+<blockquote>
+  <p>{{ comment.content }}</p>
+  <footer>
+    via <a style="color:red"> @{{ comment.user }} </a> 
+    <p style="color:blue"> | {{ comment.timestamp|timesince }} ago |
+    {% if comment.children.count > 0 %}
+      {{ comment.children.count }} 
+        Comment{% if comment.children.count > 1 %}s{% endif %} | 
+    {% endif %} 
+    </p>
+    <a class='comment-reply-btn' href='#'>Reply</a> | 
+    <a class='' href='{{ comment.get_absolute_url }}'>Thread</a>
+    <hr>
+  </footer>
 
-<h2 style="text-align:center" >Comments</h2>
-{% for comment in post.comments.all %}
-    <ul class="nes-container is-rounded">
-        <li class="list-group-item">
-            <img height="25" width="25" class="rounded-circle account-img" src="{{ comment.author.image.url }}">
-            <a href="{% url 'post:userPost' username=comment.author %}" style="color:blue">@{{ comment.author }}</a>
-            <span style="color:red">{{post.date}}</span>
-            <div>
-                {{ comment }}
-            </div>
-        </li>
-    </ul>
+  <div class='comment-reply'>
+    {% for child_comment in comment.children %}
+      <blockquote>
+        <p>{{ child_comment.content }}</p>
+        <footer>
+          via <a style="color:red"> @{{ child_comment.user }}</a>
+          <p style="color:blue">
+            | {{ child_comment.timestamp|timesince }} ago 
+          </p>
+        </footer>
+      </blockquote>
+      <hr>
+    {% endfor %}
+
+    <form method="POST" action="."> 
+      {% csrf_token %}
+      {{ comment_form }}
+      <input type='hidden' name='parent_id' value='{{ comment.id }}'>
+      <br>
+      <input type='submit' value='Reply' class="nes-btn is-success">
+    </form>
+  </div>
+
+</blockquote>
 {% endfor %}
 
 {% endblock content %}
