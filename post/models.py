@@ -1,29 +1,27 @@
 from __future__ import unicode_literals
 
 from django.contrib.contenttypes.models import ContentType
-from django.utils.safestring import mark_safe
 from django.db.models.signals import pre_save
+from django.utils.safestring import mark_safe
 from django.utils.text import slugify
 from comments.models import Comment
 from markdown_deux import markdown
-from django.conf import settings
 from django.utils import timezone
+from django.conf import settings
 from django.urls import reverse
 from django.db import models
-
-from .utils import get_read_time
 
 class PostManager(models.Manager):
     def active(self, *args, **kwargs):
         return super(PostManager, self).filter(publish__lte=timezone.now())
 
 class Post(models.Model):
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE,default=1)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL,on_delete=models.CASCADE,default=1)
     title = models.CharField(max_length=120)
     slug = models.SlugField(unique=True)
     content = models.TextField()
     publish = models.DateField(auto_now_add=True)
-    read_time =  models.IntegerField(default=0) # models.TimeField(null=True, blank=True) #assume minutes
+    read_time =  models.IntegerField(default=0) 
     updated = models.DateTimeField(auto_now=True, auto_now_add=False)
     timestamp = models.DateTimeField(auto_now=False, auto_now_add=True)
 
@@ -42,22 +40,16 @@ class Post(models.Model):
         ordering = ["-timestamp", "-updated"]
 
     def get_markdown(self):
-        content = self.content
-        markdown_text = markdown(content)
+        markdown_text = markdown(self.content)
         return mark_safe(markdown_text)
 
     @property
     def comments(self):
-        instance = self
-        qs = Comment.objects.filter_by_instance(instance)
-        return qs
+        return Comment.objects.filter_by_instance(self)
 
     @property
     def get_content_type(self):
-        instance = self
-        content_type = ContentType.objects.get_for_model(instance.__class__)
-        return content_type
-
+        return ContentType.objects.get_for_model(self.__class__)
 
 def create_slug(instance, new_slug=None):
     slug = slugify(instance.title)
@@ -77,18 +69,5 @@ def pre_save_post_receiver(sender, instance, *args, **kwargs):
 
     if instance.content:
         html_string = instance.get_markdown()
-        read_time_var = get_read_time(html_string)
-        instance.read_time = read_time_var
-
 
 pre_save.connect(pre_save_post_receiver, sender=Post)
-
-
-
-
-
-
-
-
-
-
