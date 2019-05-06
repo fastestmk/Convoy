@@ -12,7 +12,7 @@ body {
 
 nav {
   background: #FF144B ;
-  padding-bottom:20px;
+  padding-bottom:2px;
 }
 
 header::after{
@@ -30,7 +30,7 @@ nav ul{
 nav li{
   display: inline-block;
   margin-left:40px;
-  padding-top: 14px;
+  padding-top:10px;
   position: relative;
 }
 
@@ -38,7 +38,7 @@ nav a{
   color: white ;
   text-decoration: none;
   text-transform: uppercase;
-  font-size: 14px;
+  font-size:14px;
 }
 
 nav a:hover {

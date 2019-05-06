@@ -37,9 +37,9 @@
 
   {% if messages %}
     {%for message in messages %}
-    <div class="alert alert-warning alert-dismissable" role="alert">
-      {{message}}
-    </div>
+    <ul class="nes-list is-disc">
+      <li>{{message}}</li>
+    </ul>  
     {% endfor %}
   {% endif %}
 
