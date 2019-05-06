@@ -2,14 +2,13 @@ from __future__ import unicode_literals
 
 from django.contrib.contenttypes.models import ContentType
 from django.db.models.signals import pre_save
-from django.utils.safestring import mark_safe
 from django.utils.text import slugify
-from comments.models import Comment
-from markdown_deux import markdown
 from django.utils import timezone
 from django.conf import settings
 from django.urls import reverse
 from django.db import models
+
+from comments.models import Comment
 
 class PostManager(models.Manager):
     def active(self, *args, **kwargs):
@@ -39,10 +38,6 @@ class Post(models.Model):
     class Meta:
         ordering = ["-timestamp", "-updated"]
 
-    def get_markdown(self):
-        markdown_text = markdown(self.content)
-        return mark_safe(markdown_text)
-
     @property
     def comments(self):
         return Comment.objects.filter_by_instance(self)
@@ -66,8 +61,5 @@ def create_slug(instance, new_slug=None):
 def pre_save_post_receiver(sender, instance, *args, **kwargs):
     if not instance.slug:
         instance.slug = create_slug(instance)
-
-    if instance.content:
-        html_string = instance.get_markdown()
 
 pre_save.connect(pre_save_post_receiver, sender=Post)

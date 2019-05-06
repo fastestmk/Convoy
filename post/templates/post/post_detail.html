@@ -25,7 +25,9 @@
   {% if instance.image %}
     <img src='{{ instance.image.url }}' class='img-responsive' />
   {% endif %}
-  {{ instance.get_markdown }}
+  <div>
+    {{ instance}}
+  </div>  
 </div>
 
 <br>
