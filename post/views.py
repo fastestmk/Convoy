@@ -8,7 +8,6 @@ from django.contrib import messages
 from django.utils import timezone
 from django.db.models import Q
 
-from .utils import get_read_time
 from .forms import PostForm
 from .models import Post
 
