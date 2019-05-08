@@ -1,17 +1,16 @@
 {% extends "base.html" %}
 {% block content %}
 
-<ol>
-  {% for obj in object_list %}
-  <li class="nes-container is-rounded">
-    <a style="font-size:18px" href="{{ obj.get_absolute_url }}">{{ obj.title }}</a>
-    <div>
-      <span style="color:#4E4C54">{{obj.publish}}</span>
-      <img height="35" width="35" class="rounded-circle" src="{{ user.profile.image.url }}">
-    </div>
-  </li>
-  {% endfor %}
-</ol>
+{% for obj in object_list %}
+<div class="nes-container is-rounded">
+  <a style="font-size:18px" href="{{ obj.get_absolute_url }}">{{obj.title}}</a>
+  <div>
+    <span style="color:#4E4C54">{{obj.publish}}</span>
+    <img height="30" width="30" class="rounded-circle account-img" src="{{ obj.user.profile.image.url }}">
+    <a href="" style="color:#03BD98">@{{obj.user}}</a>
+  </div>
+</div>
+{% endfor %}
 
 <div style="text-align:center">
   <div class="pagination">
