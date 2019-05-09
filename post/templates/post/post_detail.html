@@ -6,51 +6,46 @@
   <h2 style="color:blue" class="title">{{ title }}</h2>
   <img height="30" width="30" class="rounded-circle account-img" src="{{ instance.user.profile.image.url }}">
   <span style="color:#7DB7C9">Submited by</span>
-  <a href="" style="color:red">@{{ instance.user }}</a>
+  <a href="{% url 'post:userPost' username=instance.user %}" style="color:red">@{{ instance.user }}</a>
   <span style="color:#BDA403">{{instance.publish}}</span>
 
   {% if user.is_authenticated %}
     {% if user == instance.user %}
     <div style="float:right;">
-      <a class="nes-btn is-error" href="{% url 'post:delete' slug=instance.slug%}">
-        Delete
-      </a>
-      <a class="nes-btn is-success"  href="{% url 'post:update' slug=instance.slug%}">
-        Update
-      </a>
+      <a class="nes-btn is-error" href="{% url 'post:delete' slug=instance.slug%}">Delete</a>
+      <a class="nes-btn is-success" href="{% url 'post:update' slug=instance.slug%}">Update</a>
     </div>
     {% endif %}
   {% endif %}
 
-  {% if instance.image %}
-    <img src='{{ instance.image.url }}' class='img-responsive' />
-  {% endif %}
   <div>
     {{ instance.content}}
   </div>  
+
 </div>
 
 <br>
 {% if user.is_authenticated %}
-
 <div style="text-align: center">
   <h2 class="title" >New comment</h2>
   <form method="POST" action=".">
     {% csrf_token %}
     {{ comment_form }}
     <br>
-    <input type='submit' value='Post comment'  class="nes-btn is-primary">
+    <input type='submit' value='Post comment' class="nes-btn is-primary">
   </form>  
 </div>
 {% endif %}
-<hr>
-    
+
 {% for comment in comments %}
-<blockquote>
-  <p>{{ comment.content }}</p>
-  <footer>
-    via <a style="color:red"> @{{ comment.user }} </a> 
-    <p style="color:blue"> | {{ comment.timestamp|timesince }} ago |
+<blockquote >
+  <footer class="nes-container is-rounded">
+    <p>{{ comment.content }}</p>
+    via 
+    <a href="{% url 'post:userPost' username=comment.user %}" style="color:red"> 
+      @{{ comment.user }} 
+    </a> 
+    | {{ comment.timestamp|timesince }} ago |
     {% if comment.children.count > 0 %}
       {{ comment.children.count }} 
         Comment{% if comment.children.count > 1 %}s{% endif %} | 
@@ -58,21 +53,20 @@
     </p>
     <a class='comment-reply-btn' href='#'>Reply</a> | 
     <a class='' href='{{ comment.get_absolute_url }}'>Thread</a>
-    <hr>
   </footer>
 
   <div class='comment-reply'>
     {% for child_comment in comment.children %}
-      <blockquote>
+      <blockquote class="nes-container is-rounded">
         <p>{{ child_comment.content }}</p>
         <footer>
-          via <a style="color:red"> @{{ child_comment.user }}</a>
-          <p style="color:blue">
-            | {{ child_comment.timestamp|timesince }} ago 
-          </p>
+          via 
+          <a href="{% url 'post:userPost' username=child_comment.user %}" style="color:red"> 
+            @{{  child_comment.user }}
+          </a>
+          | {{ child_comment.timestamp|timesince }} ago 
         </footer>
       </blockquote>
-      <hr>
     {% endfor %}
 
     <form method="POST" action="."> 
@@ -86,5 +80,4 @@
 
 </blockquote>
 {% endfor %}
-
 {% endblock content %}
