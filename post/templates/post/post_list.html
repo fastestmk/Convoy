@@ -7,7 +7,7 @@
   <div>
     <span style="color:#4E4C54">{{obj.publish}}</span>
     <img height="30" width="30" class="rounded-circle account-img" src="{{ obj.user.profile.image.url }}">
-    <a href="" style="color:#03BD98">@{{obj.user}}</a>
+    <a href="{% url 'post:userPost' username=obj.user %}" style="color:#03BD98">@{{obj.user}}</a>
   </div>
 </div>
 {% endfor %}
