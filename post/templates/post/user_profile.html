@@ -1,39 +1,44 @@
 {% extends "base.html" %}
-
 {% block content %}
+
+<br>
 <div style="text-align:center">
-    <img height="125" width="125" class="rounded-circle account-img" src="{{ user.profile.image.url }}"><br>
-    <h3>@{{ user.username }}</h3>
-    <b>Name:</b> {{user.first_name }} |
-    <b>Email:</b> {{ user.email }}
+  <img height="125" width="125" class="rounded-circle account-img" src="{{ user.profile.image.url }}">
+  <h3>@{{ user.username }}</h3>
+  <b>Name:</b>{{user.first_name }} |
+  <b>Email:</b>{{ user.email }}
 </div>
 
 <ol>
-  {% for post in Posts %}
-    <li  class="nes-container is-rounded">
-      <a  style="font-size:18px" href="{% url 'post:detail' pk=post.pk %}">{{ post.title }}</a>
-      <div>
-        <span style="color:#4E4C54">{{post.date}}</span>
-        <span  style="color:#4E4C54">| comments: {{ post.comments.count }} |</span>
-        <img height="30" width="30" class="rounded-circle account-img" src="{{ post.user.image.url }}">
-        <a href="{% url 'post:userPost' username=post.user %}" style="color:#03BD98"> @{{ post.user }}</a>
-      </div>
-    </li>
-  {% endfor %}
-  </ol>
+{% for post in Posts %}
+  <li  class="nes-container is-rounded">
+    <a  style="font-size:18px" href="{{ post.get_absolute_url }}">{{ post.title }}</a>
+    <div>
+      <span style="color:#4E4C54"> {{post.publish}}</span>
+      <span  style="color:#4E4C54">| comments: {{ post.comments.count}} |</span>
+      <img height="30" width="30" class="rounded-circle account-img" src="{{ user.profile.image.url }}">
+      <a href="{% url 'post:userPost' username=post.user %}" style="color:#03BD98"> @{{ post.user }}</a>
+    </div>
+  </li>
+{% endfor %}
+</ol>
 
 <div style="text-align:center">
-  <span>
-    {% if Posts.has_previous %}
-      <a href="?page={{ Posts.previous_page_number }}">Next Page</a>
-    {% endif %}
-    <span>
-       {{ Posts.number }} / {{ Posts.paginator.num_pages }}
+  <div class="pagination">
+    <span class="step-links">
+      {% if Posts.has_previous %}
+        <a href="?{{ page_request_var }}={{ Posts.previous_page_number }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}">previous</a>
+      {% endif %}
+
+      <span class="current">
+        Page {{ Posts.number }} of {{ Posts.paginator.num_pages }}.
+      </span>
+
+      {% if Posts.has_next %}
+        <a href="?{{ page_request_var }}={{ Posts.next_page_number }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}">next</a>
+      {% endif %}
     </span>
-    {% if Posts.has_next %}
-      <a href="?page={{ Posts.next_page_number }}">Previous Page</a>
-    {% endif %}
-  </span>
+  </div>
 </div>
 
 {% endblock content %}

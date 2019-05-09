@@ -2,6 +2,8 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.http import HttpResponse, HttpResponseRedirect, Http404
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.contenttypes.models import ContentType
+from django.views.generic import DetailView
+from django.contrib.auth.models import User
 from comments.forms import CommentForm
 from comments.models import Comment
 from django.contrib import messages
@@ -125,3 +127,27 @@ def post_delete(request, slug=None):
 	instance.delete()
 	messages.success(request, "Successfully deleted")
 	return redirect("posts:list")
+
+
+class UserProfile(DetailView):
+	template_name = "post/user_profile.html"
+	model = Post, User
+
+	def get(self, request, username):
+		user = User.objects.get(username=username)
+		post_list = Post.objects.filter(user=user.pk)
+		paginator = Paginator(post_list, 10)
+		page = request.GET.get('page')
+
+		try:
+			Posts = paginator.page(page)
+		except PageNotAnInteger:
+			Posts = paginator.page(1)
+		except EmptyPage:
+			Posts = paginator.page(paginator.num_pages)
+
+		if post_list == []:
+			messages.add_message(request, messages.WARNING, "The user does not have a share!")
+
+		context = dict(Posts=Posts, user=user)
+		return render(request, self.template_name, context)	
