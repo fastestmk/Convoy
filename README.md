@@ -1,5 +1,5 @@
 # Convoy
-Convoy is a social media project made with Django and Bootstrap.<br>
+Convoy is a social media project made with Django<br>
 
 ## Installation
 ```
