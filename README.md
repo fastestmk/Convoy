@@ -13,3 +13,4 @@ pip install -r requirements.txt
 * Comment replay    
 ## To do list
 * Topic
+* Captcha verification
