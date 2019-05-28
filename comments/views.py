@@ -47,3 +47,30 @@ def comment_thread(request, id):
 
     context = dict(comment=obj,form=form)
     return render(request, "post/comment_thread.html", context)
+
+
+def comment_delete(request, id):
+    #obj = get_object_or_404(Comment, id=id)
+    # obj = CommentFormmment.objects.get(id=id)
+    try:
+        obj = Comment.objects.get(id=id)
+    except:
+        raise Http404
+
+    if obj.user != request.user:
+        #messages.success(request, "You do not have permission to view this.")
+        #raise Http404
+        reponse = HttpResponse("You do not have permission to do this.")
+        reponse.status_code = 403
+        return reponse
+        #return render(request, "confirm_delete.html", context, status_code=403)
+
+    if request.method == "POST":
+        parent_obj_url = obj.content_object.get_absolute_url()
+        obj.delete()
+        messages.success(request, "This has been deleted.")
+        return HttpResponseRedirect(parent_obj_url)
+    context = {
+        "object": obj
+    }
+    return render(request, "post/confirm_delete.html", context)    

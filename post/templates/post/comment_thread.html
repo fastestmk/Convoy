@@ -12,6 +12,7 @@
       {{ comment.children.count }} 
       Comment{% if comment.children.count > 1 %}s{% endif %} 
     {% endif %}</p>
+    <a href='{{ comment.get_delete_url }}'>Delete</a>
   </footer>
   <hr/>
   <div>
@@ -22,17 +23,18 @@
           via <a style="color:red"> @{{child_comment.user}}</a>
           <p style="color:blue">| {{ child_comment.timestamp|timesince }} ago </p>
         </footer>
+        <a href='{{ child_comment.get_delete_url }}'>Delete</a>
       </blockquote>
       <hr>
    {% endfor %}
-
-    <form method="POST" action="."> {% csrf_token %}
+    <form method="POST" action="."> 
+      {% csrf_token %}
       {{ form }}
       <input type='hidden' name='parent_id' value='{{ comment.id }}'>
       <br>
       <input type='submit' value='Reply' class="nes-btn is-primary">
     </form>
-</div>
+  </div>
 </div>
 
 {% endblock content %}
