@@ -16,10 +16,10 @@
     <ul>
       <li><a href="{% url 'post:list' %}">Posts</a></li>
       <li>
-        <form method='GET' action='' class='row'>
-          <div class='input-group'>
-            <input class='form-control' type='text' name='q' placeholder='type something...' value='{{ request.GET.q }}'/>
-            <button class="nes-btn is-success" type='submit'>Search</button>        
+        <form method='GET' action="{% url 'post:list' %}">
+          <div>
+            <input style="width:69%;height:32px" class="nes-input" type='text' name='q' placeholder='type something...' value='{{ request.GET.q }}'/>
+            <button style="font-size:14px;height: 38px" class="nes-btn is-success" type='submit'>Search</button>
           </div>
         </form>
       </li>
