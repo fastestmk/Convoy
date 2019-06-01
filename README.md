@@ -14,3 +14,4 @@ pip install -r requirements.txt
 ## To do list
 * Topic
 * Captcha verification
+* User follow system
