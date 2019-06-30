@@ -1,9 +1,21 @@
 # Convoy
 Convoy is a social media project made with Django<br>
 
-## Installation
+## Installation(Docker)
+### Static Files
+To collect static files for nginx to access, just run:
+```bash
+$ docker-compose exec web bash
+$ python manage.py collectstatic
 ```
-pip install -r requirements.txt
+### Migrations
+```
+docker-compose run web python3 manage.py migrate
+```
+### Execution
+Run docker-compose commands to start containers:
+```
+$ docker-compose up -d
 ```
 ## Features
 * CRUD operations for posts.
