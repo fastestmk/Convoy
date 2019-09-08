@@ -1,18 +1,14 @@
 # Convoy
-Convoy is a social media project made with Django<br>
+Convoy is a social media project made with Django
 
 ## Installation(Docker)
 Run docker-compose commands to start containers
 ```
 docker-compose up -d
 ```
-Get the container id.
+Log in to the terminal.
 ```
-docker ps -aqf "name=convoy_web" 
-```
-Access the terminal with this id.
-```
-docker exec -it <id> /bin/bash
+docker exec -it convoy_web_1 /bin/bash
 ```
 Make migrations.
 ```
