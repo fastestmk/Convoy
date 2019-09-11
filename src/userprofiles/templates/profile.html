@@ -2,11 +2,11 @@
 
 {% block content %}
 <div class="nes-container with-title">
-  <h1 style="color:blue" class="title">Profile</h1>
+  <h1 class="title">Profile</h1>
   {% if user.is_authenticated %} 
-    <img height="100" width="100" class="rounded-circle" src="{{ user.profile.image.url }}"><br>
+    <img class="rounded-circle user_image" src="{{ user.profile.image.url }}"><br>
     <b>Name:</b> {{user.first_name }}</p>
-    <b> Surname:</b> {{user.last_name }}</p>
+    <b>Surname:</b> {{user.last_name }}</p>
     <b>Username:</b> {{ user.username }}</p>
     <b>Email:</b> {{ user.email }}</p>
   {% endif %}

@@ -1,31 +1,31 @@
 {% extends "base.html" %}
 {% block content %}
-
-<br><hr>
-
-<div class='col-sm-6 col-sm-offset-3'>    
+<hr>
+<div>    
   <p>{{ comment.content }}</p>
   <footer>
-    via <a style="color:red"> @{{ comment.user }}</a>
-    <p style="color:blue">| {{ comment.timestamp|timesince }} ago 
+    via <a id="user">@{{ comment.user }}</a>
+    <p class="title">
+    | {{ comment.timestamp|timesince }} ago 
     {% if comment.children.count > 0 %}
       {{ comment.children.count }} 
       Comment{% if comment.children.count > 1 %}s{% endif %} 
-    {% endif %}</p>
+    {% endif %}
+    </p>
     <a href='{{ comment.get_delete_url }}'>Delete</a>
   </footer>
   <hr/>
   <div>
     {% for child_comment in comment.children %}
-      <blockquote>
-        <p>{{ child_comment.content }}</p>
-        <footer >
-          via <a style="color:red"> @{{child_comment.user}}</a>
-          <p style="color:blue">| {{ child_comment.timestamp|timesince }} ago </p>
-        </footer>
-        <a href='{{ child_comment.get_delete_url }}'>Delete</a>
-      </blockquote>
-      <hr>
+    <blockquote>
+      <p>{{ child_comment.content }}</p>
+      <footer>
+        via <a id="user"> @{{child_comment.user}}</a>
+        <p class="title">| {{ child_comment.timestamp|timesince }} ago</p>
+      </footer>
+      <a href='{{ child_comment.get_delete_url }}'>Delete</a>
+    </blockquote>
+    <hr>
    {% endfor %}
     <form method="POST" action="."> 
       {% csrf_token %}
@@ -36,5 +36,4 @@
     </form>
   </div>
 </div>
-
 {% endblock content %}

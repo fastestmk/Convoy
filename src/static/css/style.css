@@ -88,3 +88,43 @@ nav a:hover::before {
   border-radius:50%;
   overflow:hidden;
 }
+
+#search_box{
+  width:69%;
+  height:32px
+}
+
+#search_button{
+  font-size:14px;
+  height:38px
+}
+
+#user{
+  color:purple
+}
+
+.default{
+  text-align: center
+}
+
+.title{
+  color:blue;
+}
+
+.post_profile{
+  height:30; 
+  width:30
+}
+
+.user_image{
+  height:125; 
+  width:125
+}
+
+.title_link{
+  font-size:18px
+}
+
+.container{
+  padding-top: 15px;
+}

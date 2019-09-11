@@ -2,7 +2,8 @@
 <html>
 <head>
 <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"><title>Convoy</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>Convoy</title>
   <link rel='stylesheet' href='{% static "css/base.css" %}' />
   <link rel='stylesheet' href='{% static "css/style.css" %}' />
   <link rel="stylesheet" href="{% static 'css/PressStart2P.css' %}">
@@ -18,8 +19,8 @@
       <li>
         <form method='GET' action="{% url 'post:list' %}">
           <div>
-            <input style="width:69%;height:32px" class="nes-input" type='text' name='q' placeholder='type something...' value='{{ request.GET.q }}'/>
-            <button style="font-size:14px;height: 38px" class="nes-btn is-success" type='submit'>Search</button>
+            <input id="search_box" class="nes-input" type='text' name='q' placeholder='type something...' value='{{ request.GET.q }}'/>
+            <button id="search_button" class="nes-btn is-success" type='submit'>Search</button>
           </div>
         </form>
       </li>

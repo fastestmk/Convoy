@@ -1,18 +1,17 @@
 {% extends "base.html" %}
 {% block content %}
-
 {% for obj in object_list %}
 <div class="nes-container is-rounded">
-  <a style="font-size:18px" href="{{ obj.get_absolute_url }}">{{obj.title}}</a>
+  <a class="title_link" href="{{ obj.get_absolute_url }}">{{obj.title}}</a>
   <div>
-    <span style="color:#4E4C54">{{obj.publish}}</span>
-    <img height="30" width="30" class="rounded-circle account-img" src="{{ obj.user.profile.image.url }}">
-    <a href="{% url 'post:userPost' username=obj.user %}" style="color:#03BD98">@{{obj.user}}</a>
+    <span>{{obj.publish}}</span>
+    <img class="rounded-circle account-img post_profile" src="{{ obj.user.profile.image.url }}">
+    <a id="user" href="{% url 'post:userPost' username=obj.user %}">@{{obj.user}}</a>
   </div>
 </div>
 {% endfor %}
 
-<div style="text-align:center">
+<div class="default">
   <div class="pagination">
     <span class="step-links">
       {% if object_list.has_previous %}
@@ -29,5 +28,4 @@
     </span>
   </div>
 </div>
-
 {% endblock content %}
