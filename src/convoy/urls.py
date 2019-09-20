@@ -3,8 +3,6 @@ from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import include, path
 
-from userprofiles.views import sign_in, sign_out, sign_up
-
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("comments/", include("comments.urls", namespace="comments")),

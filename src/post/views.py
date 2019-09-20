@@ -3,9 +3,7 @@ from django.contrib.auth.models import User
 from django.contrib.contenttypes.models import ContentType
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from django.db.models import Q
-from django.http import Http404, HttpResponse, HttpResponseRedirect
 from django.shortcuts import get_object_or_404, redirect, render
-from django.utils import timezone
 from django.views import View
 from django.views.generic import CreateView, DeleteView, DetailView
 
@@ -40,14 +38,14 @@ def post_detail(request, slug=None):
             if parent_qs.exists() and parent_qs.count() == 1:
                 parent_obj = parent_qs.first()
 
-        new_comment, created = Comment.objects.get_or_create(
+        new_comment = Comment.objects.get_or_create(
             user=request.user,
             content_type=content_type,
             object_id=obj_id,
             content=content_data,
             parent=parent_obj,
         )
-        return HttpResponseRedirect(new_comment.content_object.get_absolute_url())
+        return redirect(new_comment.content_object.get_absolute_url())
 
     comments = instance.comments
     context = dict(
@@ -85,7 +83,7 @@ class PostUpdate(View):
         if form.is_valid():
             instance = form.save(commit=False)
             instance.save()
-            return HttpResponseRedirect(instance.get_absolute_url())
+            return redirect(instance.get_absolute_url())
         return render(request, self.template_name, context)
 
 

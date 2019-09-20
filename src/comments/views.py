@@ -10,11 +10,9 @@ from .models import Comment
 
 def comment_thread(request, id):
     obj = get_object_or_404(Comment, id=id)
-    content_object = obj.content_object
-    content_id = obj.content_object.id
     initial_data = dict(content_type=obj.content_type, object_id=obj.object_id)
     form = CommentForm(request.POST or None, initial=initial_data)
-    
+
     if form.is_valid():
         c_type = form.cleaned_data.get("content_type")
         content_type = ContentType.objects.get(model=c_type)
@@ -31,7 +29,7 @@ def comment_thread(request, id):
             if parent_qs.exists() and parent_qs.count() == 1:
                 parent_obj = parent_qs.first()
 
-        new_comment, created = Comment.objects.get_or_create(
+        new_comment = Comment.objects.get_or_create(
             user=request.user,
             content_type=content_type,
             object_id=obj_id,
