@@ -1,20 +1,14 @@
-from django.urls import path, re_path
+from django.urls import path
 
-from .views import (
-    PostCreate,
-    PostDelete,
-    PostList,
-    PostUpdate,
-    UserProfile,
-    post_detail,
-)
+from .views import (PostCreate, PostDelete, PostList, PostUpdate, UserProfile,
+    post_detail)
 
 app_name = "post"
 urlpatterns = [
-    path("create/", view=PostCreate.as_view(), name="create"),
+    path("create/", PostCreate.as_view(), name="create"),
     path("<slug:slug>/", post_detail, name="detail"),
-    path("<slug:slug>/update/", view=PostUpdate.as_view(), name="update"),
-    path("", view=PostList.as_view(), name="list"),
-    path("<slug:slug>/delete/", view=PostDelete.as_view(), name="delete"),
-    path("@<username>/", view=UserProfile.as_view(), name="userPost"),
+    path("<slug:slug>/update/", PostUpdate.as_view(), name="update"),
+    path("", PostList.as_view(), name="list"),
+    path("<slug:slug>/delete/", PostDelete.as_view(), name="delete"),
+    path("@<username>/", UserProfile.as_view(), name="userPost"),
 ]

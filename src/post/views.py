@@ -7,7 +7,7 @@ from django.http import Http404, HttpResponse, HttpResponseRedirect
 from django.shortcuts import get_object_or_404, redirect, render
 from django.utils import timezone
 from django.views import View
-from django.views.generic import CreateView, DeleteView, DetailView, UpdateView
+from django.views.generic import CreateView, DeleteView, DetailView
 
 from comments.forms import CommentForm
 from comments.models import Comment
@@ -18,16 +18,18 @@ from .models import Post
 
 def post_detail(request, slug=None):
     instance = get_object_or_404(Post, slug=slug)
-
-    initial_data = {"content_type": instance.get_content_type, "object_id": instance.id}
-
+    initial_data = dict(
+        content_type=instance.get_content_type, object_id=instance.id
+    )
     form = CommentForm(request.POST or None, initial=initial_data)
+
     if form.is_valid():
         c_type = form.cleaned_data.get("content_type")
         content_type = ContentType.objects.get(model=c_type)
         obj_id = form.cleaned_data.get("object_id")
         content_data = form.cleaned_data.get("content")
         parent_obj = None
+
         try:
             parent_id = int(request.POST.get("parent_id"))
         except:
@@ -48,12 +50,9 @@ def post_detail(request, slug=None):
         return HttpResponseRedirect(new_comment.content_object.get_absolute_url())
 
     comments = instance.comments
-    context = {
-        "title": instance.title,
-        "instance": instance,
-        "comments": comments,
-        "comment_form": form,
-    }
+    context = dict(
+        title=instance.title, instance=instance, comments=comments, comment_form=form
+    )
     return render(request, "post/post_detail.html", context)
 
 
@@ -74,9 +73,9 @@ class PostUpdate(View):
     def get(self, request, slug):
         instance = get_object_or_404(Post, slug=slug)
         form = self.form_class(request.POST or None, instance=instance)
-
-        context = {"title": instance.title, "instance": instance, "form": form}
-
+        context = dict(
+            title = instance.title, instance = instance, form = form
+        )
         return render(request, self.template_name, context)
 
     def post(self, request, slug):
@@ -87,9 +86,6 @@ class PostUpdate(View):
             instance = form.save(commit=False)
             instance.save()
             return HttpResponseRedirect(instance.get_absolute_url())
-
-            context = {"title": instance.title, "instance": instance, "form": form}
-
         return render(request, self.template_name, context)
 
 
@@ -98,9 +94,6 @@ class PostList(DetailView):
     model = Post
 
     def get(self, request):
-        today = timezone.now().date()
-        # .order_by("-timestamp")
-        queryset_list = Post.objects.active()
         queryset_list = Post.objects.all()
         query = request.GET.get("q")
 
@@ -112,25 +105,21 @@ class PostList(DetailView):
                 | Q(user__last_name__icontains=query)
             ).distinct()
 
-        paginator = Paginator(queryset_list, 8)  # Show 25 contacts per page
+        paginator = Paginator(queryset_list, 8)
         page_request_var = "page"
         page = request.GET.get(page_request_var)
 
         try:
             queryset = paginator.page(page)
         except PageNotAnInteger:
-            # If page is not an integer, deliver first page.
             queryset = paginator.page(1)
         except EmptyPage:
-            # If page is out of range (e.g. 9999), deliver last page of results.
             queryset = paginator.page(paginator.num_pages)
 
-        context = {
-            "object_list": queryset,
-            "title": "List",
-            "page_request_var": page_request_var,
-            "today": today,
-        }
+        context = dict(
+            object_list = queryset,
+            page_request_var = page_request_var
+        )
 
         return render(request, self.template_name, context)
 
