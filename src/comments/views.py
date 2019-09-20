@@ -2,6 +2,7 @@ from django.contrib import messages
 from django.contrib.contenttypes.models import ContentType
 from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404, render
+from django.views.generic import  DeleteView
 
 from .forms import CommentForm
 from .models import Comment
@@ -9,12 +10,11 @@ from .models import Comment
 
 def comment_thread(request, id):
     obj = get_object_or_404(Comment, id=id)
-    content_object = obj.content_object  # Post that the comment is on
+    content_object = obj.content_object
     content_id = obj.content_object.id
-
-    initial_data = {"content_type": obj.content_type, "object_id": obj.object_id}
-
+    initial_data = dict(content_type=obj.content_type, object_id=obj.object_id)
     form = CommentForm(request.POST or None, initial=initial_data)
+    
     if form.is_valid():
         c_type = form.cleaned_data.get("content_type")
         content_type = ContentType.objects.get(model=c_type)
@@ -43,27 +43,12 @@ def comment_thread(request, id):
     context = dict(comment=obj, form=form)
     return render(request, "post/comment_thread.html", context)
 
+class CommentDelete(DeleteView):
+    model = Comment
 
-def comment_delete(request, id):
-    # obj = get_object_or_404(Comment, id=id)
-    # obj = CommentFormmment.objects.get(id=id)
-    try:
+    def get(self, request, id):
         obj = Comment.objects.get(id=id)
-    except:
-        raise Http404
-
-    if obj.user != request.user:
-        # messages.success(request, "You do not have permission to view this.")
-        # raise Http404
-        reponse = HttpResponse("You do not have permission to do this.")
-        reponse.status_code = 403
-        return reponse
-        # return render(request, "confirm_delete.html", context, status_code=403)
-
-    if request.method == "POST":
         parent_obj_url = obj.content_object.get_absolute_url()
         obj.delete()
-        messages.success(request, "This has been deleted.")
+        messages.success(request, "Comment successfully deleted")
         return HttpResponseRedirect(parent_obj_url)
-    context = {"object": obj}
-    return render(request, "post/confirm_delete.html", context)
