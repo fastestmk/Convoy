@@ -13,7 +13,25 @@
 # Convoy
 Convoy is a social media project made with Django
 
-## Installation(Docker)
+## Installation
+Clone the repository
+```
+git clone https://github.com/furkanonder/pasteRand
+```
+Install the requirements:
+```python
+pip install -r requirements.txt
+```
+Make migrations
+```python
+python manage.py migrate
+```
+Finally, run the project
+```python
+python manage.py runserver
+```
+
+## Docker
 Run docker-compose commands to start containers
 ```
 docker-compose up -d
