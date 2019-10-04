@@ -16,9 +16,7 @@ from .models import Post
 
 def post_detail(request, slug=None):
     instance = get_object_or_404(Post, slug=slug)
-    initial_data = dict(
-        content_type=instance.get_content_type, object_id=instance.id
-    )
+    initial_data = dict(content_type=instance.get_content_type, object_id=instance.id)
     form = CommentForm(request.POST or None, initial=initial_data)
 
     if form.is_valid():
@@ -38,7 +36,7 @@ def post_detail(request, slug=None):
             if parent_qs.exists() and parent_qs.count() == 1:
                 parent_obj = parent_qs.first()
 
-        new_comment = Comment.objects.get_or_create(
+        new_comment = Comment.objects.create(
             user=request.user,
             content_type=content_type,
             object_id=obj_id,
@@ -47,10 +45,13 @@ def post_detail(request, slug=None):
         )
         return redirect(new_comment.content_object.get_absolute_url())
 
-    comments = instance.comments
     context = dict(
-        title=instance.title, instance=instance, comments=comments, comment_form=form
+        title=instance.title,
+        instance=instance,
+        comments=instance.comments,
+        comment_form=form,
     )
+
     return render(request, "post/post_detail.html", context)
 
 
@@ -69,22 +70,22 @@ class PostUpdate(View):
     template_name = "post/post_form.html"
 
     def get(self, request, slug):
-        instance = get_object_or_404(Post, slug=slug)
+        instance = self.get_post()
         form = self.form_class(request.POST or None, instance=instance)
-        context = dict(
-            title = instance.title, instance = instance, form = form
-        )
+        context = dict(title=instance.title, instance=instance, form=form)
         return render(request, self.template_name, context)
 
     def post(self, request, slug):
-        instance = get_object_or_404(Post, slug=slug)
+        instance = self.get_post()
         form = self.form_class(request.POST or None, instance=instance)
 
         if form.is_valid():
             instance = form.save(commit=False)
             instance.save()
             return redirect(instance.get_absolute_url())
-        return render(request, self.template_name, context)
+
+    def get_post(self):
+        return get_object_or_404(Post, slug=self.kwargs.get("slug"))
 
 
 class PostList(DetailView):
@@ -114,11 +115,7 @@ class PostList(DetailView):
         except EmptyPage:
             queryset = paginator.page(paginator.num_pages)
 
-        context = dict(
-            object_list = queryset,
-            page_request_var = page_request_var
-        )
-
+        context = dict(object_list=queryset, page_request_var=page_request_var)
         return render(request, self.template_name, context)
 
 
