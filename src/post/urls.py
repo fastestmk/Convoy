@@ -1,7 +1,7 @@
 from django.urls import path
 
 from .views import (PostCreate, PostDelete, PostList, PostUpdate, UserProfile,
-    post_detail)
+                    get_post_from_topic, post_detail)
 
 app_name = "post"
 urlpatterns = [
@@ -11,4 +11,5 @@ urlpatterns = [
     path("", PostList.as_view(), name="list"),
     path("<slug:slug>/delete/", PostDelete.as_view(), name="delete"),
     path("@<username>/", UserProfile.as_view(), name="userPost"),
+    path("t/<slug:slug>", get_post_from_topic, name="get_post_from_topic"),
 ]

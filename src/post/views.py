@@ -11,7 +11,24 @@ from comments.forms import CommentForm
 from comments.models import Comment
 
 from .forms import PostForm
-from .models import Post
+from .models import Post, Topic
+
+
+def get_post_from_topic(request, slug):
+    queryset_list = Post.objects.filter(topic__slug=slug)
+    paginator = Paginator(queryset_list, 8)
+    page_request_var = "page"
+    page = request.GET.get(page_request_var)
+
+    try:
+        queryset = paginator.page(page)
+    except PageNotAnInteger:
+        queryset = paginator.page(1)
+    except EmptyPage:
+        queryset = paginator.page(paginator.num_pages)
+
+    context = dict(object_list=queryset, topic=slug, page_request_var=page_request_var)
+    return render(request, "post/topic_post_list.html", context)
 
 
 def post_detail(request, slug=None):
@@ -94,6 +111,7 @@ class PostList(DetailView):
 
     def get(self, request):
         queryset_list = Post.objects.all()
+        topic_list = Topic.objects.all()
         query = request.GET.get("q")
 
         if query:
@@ -115,7 +133,11 @@ class PostList(DetailView):
         except EmptyPage:
             queryset = paginator.page(paginator.num_pages)
 
-        context = dict(object_list=queryset, page_request_var=page_request_var)
+        context = dict(
+            object_list=queryset,
+            topic_list=topic_list,
+            page_request_var=page_request_var,
+        )
         return render(request, self.template_name, context)
 
 

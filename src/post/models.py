@@ -11,22 +11,33 @@ from django.utils.text import slugify
 from comments.models import Comment
 
 
+class Topic(models.Model):
+    name = models.CharField(max_length=50)
+    slug = models.SlugField(unique=True)
+
+    def __str__(self):
+        return self.name
+
+
 class PostManager(models.Manager):
     def active(self, *args, **kwargs):
         return super(PostManager, self).filter(publish__lte=timezone.now())
 
 
 class Post(models.Model):
-    user = models.ForeignKey(
-        settings.AUTH_USER_MODEL, on_delete=models.CASCADE, default=1
-    )
+    topic = models.ForeignKey(Topic, on_delete=models.CASCADE)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     title = models.CharField(max_length=120)
     slug = models.SlugField(unique=True)
     content = models.TextField()
     publish = models.DateField(auto_now_add=True)
+    read_time = models.IntegerField(default=0)
     updated = models.DateTimeField(auto_now=True, auto_now_add=False)
     timestamp = models.DateTimeField(auto_now=False, auto_now_add=True)
     objects = PostManager()
+
+    def __str__(self):
+        return self.title
 
     def get_absolute_url(self):
         return reverse("posts:detail", kwargs={"slug": self.slug})

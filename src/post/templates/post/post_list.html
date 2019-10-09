@@ -1,5 +1,18 @@
 {% extends "base.html" %}
 {% block content %}
+
+<div class="nes-container  with-title is-centered">
+  <p class="title">Categories</p>
+  {% for topic in topic_list %}
+    <a class="nes-btn is-primary" href="{% url 'post:get_post_from_topic' slug=topic %}">
+      {{topic}}
+    </a>
+    {% empty %}
+    <p>No category here yet.</p>
+  {% endfor %}
+</div>
+<br>
+
 {% for obj in object_list %}
 <div class="nes-container is-rounded">
   <a class="title_link" href="{{ obj.get_absolute_url }}">{{obj.title}}</a>
