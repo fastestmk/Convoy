@@ -55,6 +55,6 @@ python manage.py collectstatic
 * Rest-Api (you can get the post contents)
 * Comment replay    
 ## To do list
-* Topic
-* Captcha verification
-* User follow system
+- [X] Topic
+- [ ] Captcha verification
+- [ ] User follow system
