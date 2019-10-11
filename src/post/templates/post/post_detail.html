@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% block content %}
+
 <div class="nes-container with-title">
   <h2 class="title">{{ title }}</h2>
   <img class="rounded-circle account-img post_profile" src="{{ instance.user.profile.image.url }}">
@@ -7,8 +8,10 @@
   <a href="{% url 'post:userPost' username=instance.user %}" id="user">
     @{{ instance.user }}
   </a>
-  <span>{{instance.publish}}</span>
-
+  <span>{{instance.publish}}</span><br>
+  <a href="{% url 'post:get_post_from_topic' slug=topic %}">
+    #{{topic}}
+  </a>
   {% if user.is_authenticated %}
     {% if user == instance.user %}
     <div style="float:right;">
@@ -17,10 +20,7 @@
     </div>
     {% endif %}
   {% endif %}
-
-  <div>
-    {{ instance.content}}
-  </div>  
+  <div>{{ instance.content}}</div>  
 </div>
 
 {% if user.is_authenticated %}
