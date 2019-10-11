@@ -27,7 +27,7 @@ def get_post_from_topic(request, slug):
     except EmptyPage:
         queryset = paginator.page(paginator.num_pages)
 
-    context = dict(object_list=queryset, topic=slug, page_request_var=page_request_var)
+    context = dict(post_list=queryset, topic=slug, page_request_var=page_request_var)
     return render(request, "post/topic_post_list.html", context)
 
 
@@ -67,6 +67,7 @@ def post_detail(request, slug=None):
         instance=instance,
         comments=instance.comments,
         comment_form=form,
+        topic = instance.topic,
     )
 
     return render(request, "post/post_detail.html", context)
@@ -134,7 +135,7 @@ class PostList(DetailView):
             queryset = paginator.page(paginator.num_pages)
 
         context = dict(
-            object_list=queryset,
+            post_list=queryset,
             topic_list=topic_list,
             page_request_var=page_request_var,
         )

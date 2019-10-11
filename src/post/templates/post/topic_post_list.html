@@ -1,28 +1,19 @@
 {% extends "base.html" %}
 {% block content %}
 
-<div class="nes-container with-title is-centered">
-  <p class="title">Categories</p>
-  {% for topic in topic_list %}
-    <a class="nes-btn is-primary" href="{% url 'post:get_post_from_topic' slug=topic %}">
-      {{topic}}
-    </a>
-    {% empty %}
-    <p>No category here yet.</p>
+<div class="nes-container with-title">
+  <p class="title">{{topic}}</p>
+  {% for post in post_list %}
+  <div class="nes-container is-rounded">
+    <a class="title_link" href="{{ post.get_absolute_url }}">{{post.title}}</a>
+    <div>
+      <span>{{post.publish}}</span>
+      <img class="rounded-circle account-img post_profile" src="{{ post.user.profile.image.url }}">
+      <a id="user" href="{% url 'post:userPost' username=post.user %}">@{{post.user}}</a>
+    </div>
+  </div>
   {% endfor %}
 </div>
-<br>
-
-{% for post in post_list %}
-<div class="nes-container is-rounded">
-  <a class="title_link" href="{{ post.get_absolute_url }}">{{post.title}}</a>
-  <div>
-    <span>{{post.publish}}</span>
-    <img class="rounded-circle account-img post_profile" src="{{ post.user.profile.image.url }}">
-    <a id="user" href="{% url 'post:userPost' username=post.user %}">@{{post.user}}</a>
-  </div>
-</div>
-{% endfor %}
 
 <div class="default">
   <div class="pagination">
